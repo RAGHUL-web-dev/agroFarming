@@ -1,0 +1,199 @@
+<div class="product-card-template hidden">
+    <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition duration-300">
+        <!-- Product Image -->
+        <div class="relative h-48 bg-gray-100">
+            <img src="https://images.unsplash.com/photo-1567306301408-9b74779a11af?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                 alt="Product" 
+                 class="w-full h-full object-cover product-image">
+            <!-- Favorite Button -->
+            <button class="absolute top-3 right-3 w-8 h-8 bg-white/80 rounded-full flex items-center justify-center hover:bg-white">
+                <i class="far fa-heart text-gray-600"></i>
+            </button>
+            <!-- Quality Badge -->
+            <span class="absolute top-3 left-3 px-2 py-1 bg-green-600 text-white text-xs rounded">
+                Premium
+            </span>
+        </div>
+
+        <!-- Product Info -->
+        <div class="p-4">
+            <!-- Category -->
+            <div class="flex items-center justify-between mb-2">
+                <span class="text-xs font-medium text-gray-500 product-category">Category</span>
+                <span class="text-xs px-2 py-1 bg-gray-100 rounded product-stock">In Stock</span>
+            </div>
+
+            <!-- Name -->
+            <h3 class="font-semibold text-gray-800 mb-1 product-name">Product Name</h3>
+            
+            <!-- Farmer -->
+            <div class="flex items-center gap-2 mb-3">
+                <div class="w-6 h-6 bg-gray-200 rounded-full"></div>
+                <span class="text-sm text-gray-600 product-farmer">Farmer Name</span>
+            </div>
+
+            <!-- Price and Unit -->
+            <div class="flex items-center justify-between mb-4">
+                <div>
+                    <span class="text-xl font-bold text-gray-800 product-price">₹0</span>
+                    <span class="text-gray-600 product-unit">/ kg</span>
+                </div>
+                <div class="text-sm text-gray-500 product-location">
+                    <i class="fas fa-map-marker-alt mr-1"></i> City
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="grid grid-cols-2 gap-2">
+                <button class="view-detail-btn px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 text-sm font-medium">
+                    View Details
+                </button>
+                <button class="add-to-cart-btn px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 text-sm font-medium">
+                    Add to Cart
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function createProductCard(product) {
+        const template = document.querySelector('.product-card-template').cloneNode(true);
+        const card = template.querySelector('div');
+        card.classList.remove('hidden');
+        card.dataset.productId = product._id;
+
+        // Set product data
+        if (product.images && product.images.length > 0) {
+            card.querySelector('.product-image').src = product.images[0].url || 
+                'https://images.unsplash.com/photo-1567306301408-9b74779a11af?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80';
+        }
+        
+        card.querySelector('.product-category').textContent = product.category || 'Product';
+        card.querySelector('.product-name').textContent = product.name || 'Unnamed Product';
+        card.querySelector('.product-price').textContent = `₹${product.price || 0}`;
+        card.querySelector('.product-unit').textContent = `/ ${product.unit || 'unit'}`;
+        card.querySelector('.product-stock').textContent = product.availableQuantity > 0 ? 'In Stock' : 'Out of Stock';
+        card.querySelector('.product-stock').className = `text-xs px-2 py-1 rounded ${product.availableQuantity > 0 ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`;
+        
+        if (product.farmer && product.farmer.name) {
+            card.querySelector('.product-farmer').textContent = product.farmer.name;
+        }
+        
+        if (product.origin && product.origin.location) {
+            card.querySelector('.product-location').innerHTML = `<i class="fas fa-map-marker-alt mr-1"></i> ${product.origin.location.city || 'N/A'}`;
+        }
+        
+        if (product.qualityGrade) {
+            const badge = card.querySelector('.absolute.top-3.left-3');
+            badge.textContent = product.qualityGrade.charAt(0).toUpperCase() + product.qualityGrade.slice(1);
+            badge.className = `absolute top-3 left-3 px-2 py-1 text-white text-xs rounded ${getQualityBadgeClass(product.qualityGrade)}`;
+        }
+
+        // Add event listeners
+        const viewDetailBtn = card.querySelector('.view-detail-btn');
+        const addToCartBtn = card.querySelector('.add-to-cart-btn');
+        const favoriteBtn = card.querySelector('.absolute.top-3.right-3 button');
+
+        viewDetailBtn.addEventListener('click', () => viewProductDetail(product._id));
+        addToCartBtn.addEventListener('click', () => addProductToCart(product._id));
+        favoriteBtn.addEventListener('click', (e) => toggleFavorite(e, product._id));
+
+        return card;
+    }
+
+    function getQualityBadgeClass(quality) {
+        const classes = {
+            'premium': 'bg-purple-600',
+            'grade-a': 'bg-green-600',
+            'grade-b': 'bg-yellow-600',
+            'standard': 'bg-blue-600'
+        };
+        return classes[quality] || 'bg-gray-600';
+    }
+
+    async function viewProductDetail(productId) {
+        // Check if we're on marketplace page
+        if (window.location.pathname.includes('marketplace.html')) {
+            // Show product detail modal
+            await loadComponent('product-detail-modal', 'product-detail-modal');
+            // Trigger modal open with productId
+            window.openProductDetailModal(productId);
+        } else {
+            // Redirect to marketplace with product detail
+            window.location.href = `marketplace.html?product=${productId}`;
+        }
+    }
+
+    async function addProductToCart(productId) {
+        const user = JSON.parse(localStorage.getItem('user'));
+        if (!user || user.role !== 'buyer') {
+            showToast('Please login as a buyer to add items to cart', 'error');
+            window.location.href = 'auth.html';
+            return;
+        }
+
+        try {
+            const response = await fetch(`http://localhost:5000/api/products/${productId}`, {
+                headers: {
+                    'Authorization': `Bearer ${user.token}`
+                }
+            });
+
+            if (response.ok) {
+                const product = await response.json();
+                
+                // Add to cart in localStorage
+                let cart = JSON.parse(localStorage.getItem('cart')) || [];
+                const existingItem = cart.find(item => item.productId === productId);
+                
+                if (existingItem) {
+                    if (existingItem.quantity + 1 > product.product.availableQuantity) {
+                        showToast(`Only ${product.product.availableQuantity} items available`, 'warning');
+                        return;
+                    }
+                    existingItem.quantity += 1;
+                } else {
+                    cart.push({
+                        productId: productId,
+                        quantity: 1,
+                        product: product.product
+                    });
+                }
+                
+                localStorage.setItem('cart', JSON.stringify(cart));
+                showToast('Product added to cart', 'success');
+                
+                // Update cart count
+                updateCartCount();
+            }
+        } catch (error) {
+            console.error('Error adding to cart:', error);
+            showToast('Failed to add product to cart', 'error');
+        }
+    }
+
+    function toggleFavorite(event, productId) {
+        const heartIcon = event.target.closest('button').querySelector('i');
+        if (heartIcon.classList.contains('far')) {
+            heartIcon.classList.remove('far');
+            heartIcon.classList.add('fas', 'text-red-500');
+            showToast('Added to favorites', 'success');
+        } else {
+            heartIcon.classList.remove('fas', 'text-red-500');
+            heartIcon.classList.add('far');
+            showToast('Removed from favorites', 'info');
+        }
+    }
+
+    function updateCartCount() {
+        const cart = JSON.parse(localStorage.getItem('cart')) || [];
+        const cartCountElements = document.querySelectorAll('#cart-count, #cart-items-count');
+        cartCountElements.forEach(el => {
+            if (el) {
+                el.textContent = cart.length;
+                el.style.display = cart.length > 0 ? 'flex' : 'none';
+            }
+        });
+    }
+</script>

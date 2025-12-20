@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AgroForms - Admin Panel</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/custom.css">
+    <link rel="icon" type="image/x-icon" href="assets/images/favicon.ico">
+    <style>
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 6px;
+        }
+        .status-active { background-color: #10b981; }
+        .status-inactive { background-color: #ef4444; }
+        .status-pending { background-color: #f59e0b; }
+        .chart-container {
+            height: 300px;
+            position: relative;
+        }
+        .stats-card {
+            transition: all 0.3s ease;
+        }
+        .stats-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <div id="navbar-container"></div>
+    <div id="sidebar-container"></div>
+    
+    <div class="lg:ml-64">
+        <main class="p-4 md:p-6">
+            <!-- Header -->
+            <div class="mb-6 md:mb-8">
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                    <div>
+                        <h1 class="text-2xl md:text-3xl font-bold text-gray-800">Admin Panel</h1>
+                        <p class="text-gray-600">Platform management and analytics</p>
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <div class="text-sm text-gray-600">
+                            <i class="fas fa-sync-alt mr-2 cursor-pointer hover:text-green-600" onclick="refreshAdminData()"></i>
+                            Last updated: <span id="last-updated">Just now</span>
+                        </div>
+                        <button onclick="exportData()" class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 flex items-center gap-2">
+                            <i class="fas fa-download"></i> Export Data
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Admin Tabs -->
+            <div class="mb-6">
+                <div class="border-b border-gray-200">
+                    <nav class="flex flex-wrap gap-2" id="admin-tabs">
+                        <button onclick="loadAdminSection('dashboard')" 
+                                class="admin-tab px-4 py-2 rounded-t-lg font-medium text-gray-600 hover:text-gray-800 hover:bg-gray-100 active">
+                            <i class="fas fa-tachometer-alt mr-2"></i> Dashboard
+                        </button>
+                        <button onclick="loadAdminSection('users')" 
+                                class="admin-tab px-4 py-2 rounded-t-lg font-medium text-gray-600 hover:text-gray-800 hover:bg-gray-100">
+                            <i class="fas fa-users mr-2"></i> Users
+                        </button>
+                        <button onclick="loadAdminSection('farmers')" 
+                                class="admin-tab px-4 py-2 rounded-t-lg font-medium text-gray-600 hover:text-gray-800 hover:bg-gray-100">
+                            <i class="fas fa-tractor mr-2"></i> Farmers
+                        </button>
+                        <button onclick="loadAdminSection('buyers')" 
+                                class="admin-tab px-4 py-2 rounded-t-lg font-medium text-gray-600 hover:text-gray-800 hover:bg-gray-100">
+                            <i class="fas fa-store mr-2"></i> Buyers
+                        </button>
+                        <button onclick="loadAdminSection('products')" 
+                                class="admin-tab px-4 py-2 rounded-t-lg font-medium text-gray-600 hover:text-gray-800 hover:bg-gray-100">
+                            <i class="fas fa-seedling mr-2"></i> Products
+                        </button>
+                        <button onclick="loadAdminSection('orders')" 
+                                class="admin-tab px-4 py-2 rounded-t-lg font-medium text-gray-600 hover:text-gray-800 hover:bg-gray-100">
+                            <i class="fas fa-shopping-cart mr-2"></i> Orders
+                        </button>
+                        <button onclick="loadAdminSection('categories')" 
+                                class="admin-tab px-4 py-2 rounded-t-lg font-medium text-gray-600 hover:text-gray-800 hover:bg-gray-100">
+                            <i class="fas fa-tags mr-2"></i> Categories
+                        </button>
+                        <button onclick="loadAdminSection('analytics')" 
+                                class="admin-tab px-4 py-2 rounded-t-lg font-medium text-gray-600 hover:text-gray-800 hover:bg-gray-100">
+                            <i class="fas fa-chart-line mr-2"></i> Analytics
+                        </button>
+                        <button onclick="loadAdminSection('verifications')" 
+                                class="admin-tab px-4 py-2 rounded-t-lg font-medium text-gray-600 hover:text-gray-800 hover:bg-gray-100">
+                            <i class="fas fa-shield-alt mr-2"></i> Verifications
+                        </button>
+                        <button onclick="loadAdminSection('settings')" 
+                                class="admin-tab px-4 py-2 rounded-t-lg font-medium text-gray-600 hover:text-gray-800 hover:bg-gray-100">
+                            <i class="fas fa-cog mr-2"></i> Settings
+                        </button>
+                    </nav>
+                </div>
+            </div>
+
+            <!-- Admin Content Container -->
+            <div id="admin-content">
+                <!-- Loading State -->
+                <div class="text-center py-12">
+                    <div class="inline-block animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-green-600"></div>
+                    <p class="mt-4 text-gray-600">Loading admin panel...</p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Admin Modals Container -->
+    <div id="admin-modals-container"></div>
+
+    <div id="footer-container"></div>
+    <div id="modal-container"></div>
+    <div id="toast-container"></div>
+
+    <!-- Chart.js Library -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script src="js/utils.js"></script>
+    <script src="js/components.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/admin-panel.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async function() {
+            // Check authentication (admin only)
+            const user = JSON.parse(localStorage.getItem('user'));
+            if (!user || !user.token) {
+                window.location.href = 'auth.html';
+                return;
+            }
+            if (user.role !== 'admin') {
+                window.location.href = 'dashboard.html';
+                return;
+            }
+
+            // Load components
+            await loadComponent('navbar', 'navbar-container');
+            await loadComponent('sidebar', 'sidebar-container');
+            await loadComponent('footer', 'footer-container');
+            
+            // Initialize admin panel
+            initAdminPanel();
+            
+            // Update last updated time
+            updateLastUpdatedTime();
+            
+            // Update time every minute
+            setInterval(updateLastUpdatedTime, 60000);
+        });
+        
+        function updateLastUpdatedTime() {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            const dateString = now.toLocaleDateString();
+            document.getElementById('last-updated').textContent = `${dateString} ${timeString}`;
+        }
+        
+        function refreshAdminData() {
+            const activeTab = document.querySelector('.admin-tab.active');
+            if (activeTab) {
+                const section = Array.from(document.querySelectorAll('.admin-tab')).indexOf(activeTab);
+                const sections = ['dashboard', 'users', 'farmers', 'buyers', 'products', 'orders', 'categories', 'analytics', 'verifications', 'settings'];
+                if (sections[section]) {
+                    loadAdminSection(sections[section]);
+                    showToast('Data refreshed successfully', 'success');
+                }
+            }
+        }
+        
+        function exportData() {
+            showModal({
+                title: 'Export Data',
+                body: `
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Select Data to Export</label>
+                            <select id="export-type" class="w-full px-3 py-2 border border-gray-300 rounded-lg">
+                                <option value="users">Users Data</option>
+                                <option value="farmers">Farmers Data</option>
+                                <option value="buyers">Buyers Data</option>
+                                <option value="products">Products Data</option>
+                                <option value="orders">Orders Data</option>
+                                <option value="analytics">Analytics Data</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Format</label>
+                            <div class="flex gap-4">
+                                <label class="flex items-center">
+                                    <input type="radio" name="export-format" value="csv" checked class="mr-2">
+                                    <span>CSV</span>
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="radio" name="export-format" value="json" class="mr-2">
+                                    <span>JSON</span>
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="radio" name="export-format" value="excel" class="mr-2">
+                                    <span>Excel</span>
+                                </label>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Date Range (Optional)</label>
+                            <div class="grid grid-cols-2 gap-2">
+                                <input type="date" id="export-start-date" class="px-3 py-2 border border-gray-300 rounded-lg">
+                                <input type="date" id="export-end-date" class="px-3 py-2 border border-gray-300 rounded-lg">
+                            </div>
+                        </div>
+                    </div>
+                `,
+                buttons: [
+                    {
+                        text: 'Cancel',
+                        class: 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                    },
+                    {
+                        text: 'Export',
+                        class: 'bg-green-600 text-white hover:bg-green-700',
+                        onClick: () => {
+                            const type = document.getElementById('export-type').value;
+                            const format = document.querySelector('input[name="export-format"]:checked').value;
+                            const startDate = document.getElementById('export-start-date').value;
+                            const endDate = document.getElementById('export-end-date').value;
+                            
+                            // Simulate export
+                            showToast(`Exporting ${type} data as ${format.toUpperCase()}...`, 'info');
+                            setTimeout(() => {
+                                showToast('Export completed successfully', 'success');
+                            }, 1500);
+                        }
+                    }
+                ]
+            });
+        }
+    </script>
+</body>
+</html>

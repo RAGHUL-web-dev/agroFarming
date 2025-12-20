@@ -1,0 +1,131 @@
+<div class="modal-template hidden">
+    <div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+        <div class="bg-white rounded-xl shadow-2xl max-w-md w-full max-h-[90vh] overflow-hidden">
+            <!-- Modal Header -->
+            <div class="p-6 border-b">
+                <div class="flex items-center justify-between">
+                    <h3 class="text-xl font-bold text-gray-800 modal-title">Modal Title</h3>
+                    <button class="modal-close-btn text-gray-400 hover:text-gray-600">
+                        <i class="fas fa-times text-xl"></i>
+                    </button>
+                </div>
+                <p class="text-gray-600 mt-2 modal-subtitle">Modal subtitle</p>
+            </div>
+
+            <!-- Modal Body -->
+            <div class="p-6 overflow-y-auto max-h-[60vh] modal-body">
+                <!-- Content will be inserted here -->
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="p-6 border-t">
+                <div class="flex justify-end gap-3 modal-footer">
+                    <!-- Buttons will be inserted here -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function showModal(options = {}) {
+        const template = document.querySelector('.modal-template').cloneNode(true);
+        const modal = template.querySelector('div');
+        modal.classList.remove('hidden');
+        modal.id = 'active-modal';
+
+        // Set title and subtitle
+        if (options.title) {
+            modal.querySelector('.modal-title').textContent = options.title;
+        }
+        if (options.subtitle) {
+            modal.querySelector('.modal-subtitle').textContent = options.subtitle;
+        } else {
+            modal.querySelector('.modal-subtitle').style.display = 'none';
+        }
+
+        // Set body content
+        if (options.body) {
+            modal.querySelector('.modal-body').innerHTML = options.body;
+        }
+
+        // Set footer buttons
+        const footer = modal.querySelector('.modal-footer');
+        if (options.buttons) {
+            options.buttons.forEach(button => {
+                const btn = document.createElement('button');
+                btn.textContent = button.text;
+                btn.className = `px-4 py-2 rounded-lg font-medium ${button.class || 'bg-gray-200 text-gray-700 hover:bg-gray-300'}`;
+                
+                if (button.id) {
+                    btn.id = button.id;
+                }
+                
+                if (button.onClick) {
+                    btn.addEventListener('click', () => {
+                        button.onClick();
+                        if (button.closeModal !== false) {
+                            closeModal();
+                        }
+                    });
+                } else if (button.closeModal !== false) {
+                    btn.addEventListener('click', closeModal);
+                }
+                
+                footer.appendChild(btn);
+            });
+        } else {
+            // Default close button
+            const closeBtn = document.createElement('button');
+            closeBtn.textContent = 'Close';
+            closeBtn.className = 'px-4 py-2 bg-gray-200 text-gray-700 rounded-lg font-medium hover:bg-gray-300';
+            closeBtn.addEventListener('click', closeModal);
+            footer.appendChild(closeBtn);
+        }
+
+        // Close button
+        modal.querySelector('.modal-close-btn').addEventListener('click', closeModal);
+
+        // Close on backdrop click
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                closeModal();
+            }
+        });
+
+        // Add to document
+        document.body.appendChild(modal);
+
+        // Prevent body scroll
+        document.body.style.overflow = 'hidden';
+
+        return modal;
+    }
+
+    function closeModal() {
+        const modal = document.getElementById('active-modal');
+        if (modal) {
+            modal.remove();
+            document.body.style.overflow = '';
+        }
+    }
+
+    // Example usage:
+    // showModal({
+    //     title: 'Confirm Action',
+    //     subtitle: 'Are you sure you want to proceed?',
+    //     body: '<p>This action cannot be undone.</p>',
+    //     buttons: [
+    //         {
+    //             text: 'Cancel',
+    //             class: 'bg-gray-200 text-gray-700 hover:bg-gray-300',
+    //             onClick: () => console.log('Cancelled')
+    //         },
+    //         {
+    //             text: 'Confirm',
+    //             class: 'bg-green-600 text-white hover:bg-green-700',
+    //             onClick: () => console.log('Confirmed')
+    //         }
+    //     ]
+    // });
+</script>

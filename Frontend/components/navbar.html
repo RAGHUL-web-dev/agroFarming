@@ -1,0 +1,149 @@
+<nav class="bg-white shadow-lg">
+    <div class="container mx-auto px-4">
+        <div class="flex justify-between items-center h-16">
+            <!-- Logo -->
+            <div class="flex items-center">
+                <a href="index.html" class="flex items-center gap-2">
+                    <div class="w-8 h-8 bg-green-600 rounded-lg flex items-center justify-center">
+                        <i class="fas fa-leaf text-white"></i>
+                    </div>
+                    <span class="text-xl font-bold text-gray-800">AgroForms</span>
+                </a>
+            </div>
+
+            <!-- Desktop Navigation -->
+            <div class="hidden md:flex items-center space-x-8">
+                <a href="index.html" class="nav-link text-gray-700 hover:text-green-600 transition duration-300">Home</a>
+                <a href="marketplace.html" class="nav-link text-gray-700 hover:text-green-600 transition duration-300">Marketplace</a>
+                
+                <!-- Auth Links will be populated here -->
+                <div id="desktop-auth-links"></div>
+            </div>
+
+            <!-- Mobile menu button -->
+            <div class="md:hidden">
+                <button id="mobile-menu-button" class="text-gray-700 hover:text-green-600">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile menu -->
+        <div id="mobile-menu" class="md:hidden hidden">
+            <div class="px-2 pt-2 pb-3 space-y-1">
+                <a href="index.html" class="block px-3 py-2 text-gray-700 hover:text-green-600">Home</a>
+                <a href="marketplace.html" class="block px-3 py-2 text-gray-700 hover:text-green-600">Marketplace</a>
+                
+                <!-- Mobile Auth Links will be populated here -->
+                <div id="mobile-auth-links" class="border-t pt-3 mt-3"></div>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<script>
+    // Simple navbar initialization
+    function initNavbar() {
+        // Check if user is logged in
+        const user = JSON.parse(localStorage.getItem('user'));
+        const desktopLinks = document.getElementById('desktop-auth-links');
+        const mobileLinks = document.getElementById('mobile-auth-links');
+        
+        if (user && user.token) {
+            // User is logged in
+            let dashboardLink = 'dashboard.html';
+            if (user.role === 'farmer') dashboardLink = 'dashboard.html?role=farmer';
+            else if (user.role === 'buyer') dashboardLink = 'dashboard.html?role=buyer';
+            else if (user.role === 'admin') dashboardLink = 'admin-panel.html';
+            
+            // Desktop links
+            if (desktopLinks) {
+                desktopLinks.innerHTML = `
+                    <a href="${dashboardLink}" class="text-gray-700 hover:text-green-600">Dashboard</a>
+                    <div class="relative group inline-block">
+                        <button class="flex items-center space-x-2 text-gray-700 hover:text-green-600">
+                            <div class="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
+                                <i class="fas fa-user text-green-600"></i>
+                            </div>
+                            <span class="max-w-[100px] truncate">${user.name || 'User'}</span>
+                            <i class="fas fa-chevron-down text-xs"></i>
+                        </button>
+                        <div class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-2 hidden group-hover:block z-50 border">
+                            <a href="profile.html" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+                                <i class="fas fa-user-circle mr-2"></i> Profile
+                            </a>
+                            <a href="orders-manager.html" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+                                <i class="fas fa-shopping-cart mr-2"></i> Orders
+                            </a>
+                            ${user.role === 'farmer' ? `
+                                <a href="products-manager.html" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+                                    <i class="fas fa-seedling mr-2"></i> My Products
+                                </a>
+                            ` : ''}
+                            <div class="border-t mt-2 pt-2">
+                                <button onclick="logout()" class="block w-full text-left px-4 py-2 text-red-600 hover:bg-gray-100">
+                                    <i class="fas fa-sign-out-alt mr-2"></i> Logout
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            // Mobile links
+            if (mobileLinks) {
+                mobileLinks.innerHTML = `
+                    <a href="${dashboardLink}" class="block px-3 py-2 text-gray-700 hover:text-green-600">
+                        <i class="fas fa-tachometer-alt mr-2"></i> Dashboard
+                    </a>
+                    <a href="profile.html" class="block px-3 py-2 text-gray-700 hover:text-green-600">
+                        <i class="fas fa-user-circle mr-2"></i> Profile
+                    </a>
+                    <a href="orders-manager.html" class="block px-3 py-2 text-gray-700 hover:text-green-600">
+                        <i class="fas fa-shopping-cart mr-2"></i> Orders
+                    </a>
+                    ${user.role === 'farmer' ? `
+                        <a href="products-manager.html" class="block px-3 py-2 text-gray-700 hover:text-green-600">
+                            <i class="fas fa-seedling mr-2"></i> My Products
+                        </a>
+                    ` : ''}
+                    <button onclick="logout()" class="block w-full text-left px-3 py-2 text-red-600 hover:text-red-700">
+                        <i class="fas fa-sign-out-alt mr-2"></i> Logout
+                    </button>
+                `;
+            }
+        } else {
+            // User is not logged in - Show Login/Signup
+            if (desktopLinks) {
+                desktopLinks.innerHTML = `
+                    <a href="auth.html" class="text-gray-700 hover:text-green-600">Login</a>
+                    <a href="auth.html?action=register" class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition duration-300">
+                        Sign Up
+                    </a>
+                `;
+            }
+            
+            if (mobileLinks) {
+                mobileLinks.innerHTML = `
+                    <a href="auth.html" class="block px-3 py-2 text-gray-700 hover:text-green-600">Login</a>
+                    <a href="auth.html?action=register" class="block px-3 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700">
+                        Sign Up
+                    </a>
+                `;
+            }
+        }
+        
+        // Mobile menu toggle
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        if (mobileMenuButton && mobileMenu) {
+            mobileMenuButton.addEventListener('click', function() {
+                mobileMenu.classList.toggle('hidden');
+            });
+        }
+    }
+    
+    // Initialize navbar when component loads
+    initNavbar();
+</script>

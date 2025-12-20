@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AgroForms - Direct Farm to Retail Platform</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/custom.css">
+    <link rel="icon" type="image/x-icon" href="assets/images/favicon.ico">
+</head>
+<body class="bg-gray-50">
+    <!-- Navbar Container -->
+    <div id="navbar-container"></div>
+
+    <!-- Hero Section -->
+    <section class="bg-gradient-to-r from-green-600 to-emerald-700 text-white">
+        <div class="container mx-auto px-4 py-20">
+            <div class="flex flex-col lg:flex-row items-center">
+                <div class="lg:w-1/2 mb-10 lg:mb-0">
+                    <h1 class="text-4xl lg:text-5xl font-bold mb-6">Connecting Farmers Directly to Retailers</h1>
+                    <p class="text-xl mb-8 opacity-90">A comprehensive platform bridging the gap between agricultural producers and retailers/wholesalers. Minimize middlemen, maximize profits.</p>
+                    <!-- In the Hero Section of index.html -->
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <a href="auth.html?action=register" class="bg-white text-green-700 px-8 py-3 rounded-lg font-semibold text-lg hover:bg-gray-100 transition duration-300 text-center">
+                            Get Started <i class="ml-2 fas fa-arrow-right"></i>
+                        </a>
+                        <a href="#features" class="bg-transparent border-2 border-white text-white px-8 py-3 rounded-lg font-semibold text-lg hover:bg-white hover:text-green-700 transition duration-300 text-center">
+                            Learn More
+                        </a>
+                    </div>
+                </div>
+                <div class="lg:w-1/2">
+                    <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/20">
+                        <img src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                             alt="Farm Marketplace" 
+                             class="rounded-xl shadow-2xl">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="py-20 bg-white">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center mb-4 text-gray-800">Why Choose AgroForms?</h2>
+            <p class="text-gray-600 text-center mb-12 max-w-2xl mx-auto">Revolutionizing the agricultural supply chain with technology-driven solutions</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Feature 1 -->
+                <div class="bg-gray-50 p-6 rounded-xl border border-gray-200 hover:border-green-500 transition duration-300">
+                    <div class="bg-green-100 w-16 h-16 rounded-full flex items-center justify-center mb-4">
+                        <i class="fas fa-users text-green-600 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">Direct Connections</h3>
+                    <p class="text-gray-600">Eliminate middlemen and connect directly with farmers or retailers. Transparent pricing and fair trade opportunities.</p>
+                </div>
+
+                <!-- Feature 2 -->
+                <div class="bg-gray-50 p-6 rounded-xl border border-gray-200 hover:border-green-500 transition duration-300">
+                    <div class="bg-green-100 w-16 h-16 rounded-full flex items-center justify-center mb-4">
+                        <i class="fas fa-seedling text-green-600 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">Dual Categories</h3>
+                    <p class="text-gray-600">Access both crop produce and livestock/poultry products in one platform. From grains to goat milk, we have it all.</p>
+                </div>
+
+                <!-- Feature 3 -->
+                <div class="bg-gray-50 p-6 rounded-xl border border-gray-200 hover:border-green-500 transition duration-300">
+                    <div class="bg-green-100 w-16 h-16 rounded-full flex items-center justify-center mb-4">
+                        <i class="fas fa-shipping-fast text-green-600 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">Integrated Logistics</h3>
+                    <p class="text-gray-600">Schedule deliveries, track shipments in real-time, and manage your supply chain efficiently from farm to retailer.</p>
+                </div>
+
+                <!-- Feature 4 -->
+                <div class="bg-gray-50 p-6 rounded-xl border border-gray-200 hover:border-green-500 transition duration-300">
+                    <div class="bg-green-100 w-16 h-16 rounded-full flex items-center justify-center mb-4">
+                        <i class="fas fa-chart-line text-green-600 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">Smart Analytics</h3>
+                    <p class="text-gray-600">Make informed decisions with price trends, demand analysis, and earnings reports. Plan better with market insights.</p>
+                </div>
+
+                <!-- Feature 5 -->
+                <div class="bg-gray-50 p-6 rounded-xl border border-gray-200 hover:border-green-500 transition duration-300">
+                    <div class="bg-green-100 w-16 h-16 rounded-full flex items-center justify-center mb-4">
+                        <i class="fas fa-handshake text-green-600 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">Fair Negotiation</h3>
+                    <p class="text-gray-600">Negotiate prices directly with producers. Get the best deals for bulk orders with our transparent bidding system.</p>
+                </div>
+
+                <!-- Feature 6 -->
+                <div class="bg-gray-50 p-6 rounded-xl border border-gray-200 hover:border-green-500 transition duration-300">
+                    <div class="bg-green-100 w-16 h-16 rounded-full flex items-center justify-center mb-4">
+                        <i class="fas fa-shield-alt text-green-600 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">Verified Users</h3>
+                    <p class="text-gray-600">All farmers and buyers are verified for authenticity. Quality assurance and secure transactions guaranteed.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Categories Section -->
+    <section class="py-20 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center mb-4 text-gray-800">Our Product Categories</h2>
+            <p class="text-gray-600 text-center mb-12 max-w-2xl mx-auto">Comprehensive range of agricultural products from both plant and animal sources</p>
+            
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                <!-- Crop -->
+                <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition duration-300">
+                    <div class="h-40 bg-gradient-to-br from-green-400 to-emerald-600 flex items-center justify-center">
+                        <i class="fas fa-leaf text-white text-5xl"></i>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="font-bold text-lg mb-2">Crop Produce</h3>
+                        <p class="text-gray-600 text-sm">Vegetables, Fruits, Grains</p>
+                    </div>
+                </div>
+
+                <!-- Goat -->
+                <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition duration-300">
+                    <div class="h-40 bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center">
+                        <i class="fas fa-horse text-white text-5xl"></i>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="font-bold text-lg mb-2">Goat</h3>
+                        <p class="text-gray-600 text-sm">Milk, Meat, Live Animals</p>
+                    </div>
+                </div>
+
+                <!-- Cow -->
+                <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition duration-300">
+                    <div class="h-40 bg-gradient-to-br from-brown-400 to-yellow-700 flex items-center justify-center">
+                        <i class="fas fa-cow text-white text-5xl"></i>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="font-bold text-lg mb-2">Cow</h3>
+                        <p class="text-gray-600 text-sm">Milk, Ghee, Curd, Dung Cakes</p>
+                    </div>
+                </div>
+
+                <!-- Hen -->
+                <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition duration-300">
+                    <div class="h-40 bg-gradient-to-br from-red-300 to-red-500 flex items-center justify-center">
+                        <i class="fas fa-kiwi-bird text-white text-5xl"></i>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="font-bold text-lg mb-2">Hen</h3>
+                        <p class="text-gray-600 text-sm">Eggs, Meat, Chicks, Manure</p>
+                    </div>
+                </div>
+
+                <!-- Duck -->
+                <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition duration-300">
+                    <div class="h-40 bg-gradient-to-br from-blue-300 to-blue-500 flex items-center justify-center">
+                        <i class="fas fa-feather-alt text-white text-5xl"></i>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="font-bold text-lg mb-2">Duck</h3>
+                        <p class="text-gray-600 text-sm">Eggs, Meat</p>
+                    </div>
+                </div>
+
+                <!-- Pig -->
+                <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition duration-300">
+                    <div class="h-40 bg-gradient-to-br from-pink-300 to-pink-600 flex items-center justify-center">
+                        <i class="fas fa-piggy-bank text-white text-5xl"></i>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="font-bold text-lg mb-2">Pig</h3>
+                        <p class="text-gray-600 text-sm">Meat, Piglets</p>
+                    </div>
+                </div>
+
+                <!-- Rabbit -->
+                <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition duration-300">
+                    <div class="h-40 bg-gradient-to-br from-gray-300 to-gray-600 flex items-center justify-center">
+                        <i class="fas fa-paw text-white text-5xl"></i>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="font-bold text-lg mb-2">Rabbit</h3>
+                        <p class="text-gray-600 text-sm">Meat, Breeding Rabbits</p>
+                    </div>
+                </div>
+
+                <!-- More -->
+                <div class="bg-gradient-to-br from-purple-400 to-purple-600 rounded-xl shadow-md overflow-hidden hover:shadow-lg transition duration-300 flex items-center justify-center">
+                    <div class="text-center p-6">
+                        <h3 class="font-bold text-lg mb-2 text-white">+ More</h3>
+                        <p class="text-white/90 text-sm">Additional categories available</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-20 bg-gradient-to-r from-green-700 to-emerald-800 text-white">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="text-3xl font-bold mb-6">Ready to Transform Your Agricultural Business?</h2>
+            <p class="text-xl mb-8 max-w-2xl mx-auto opacity-90">Join thousands of farmers and retailers who are already benefiting from our platform</p>
+            <div class="flex flex-col sm:flex-row justify-center gap-6">
+                <a href="auth.html?action=register&role=farmer" class="bg-white text-green-700 px-8 py-4 rounded-lg font-bold text-lg hover:bg-gray-100 transition duration-300 flex items-center justify-center gap-2">
+                    <i class="fas fa-tractor"></i> Register as Farmer
+                </a>
+                <a href="auth.html?action=register&role=buyer" class="bg-transparent border-2 border-white text-white px-8 py-4 rounded-lg font-bold text-lg hover:bg-white hover:text-green-700 transition duration-300 flex items-center justify-center gap-2">
+                    <i class="fas fa-store"></i> Register as Buyer
+                </a>
+            </div>
+            <p class="mt-8 opacity-80">Already have an account? <a href="auth.html" class="font-semibold underline hover:no-underline">Login here</a></p>
+        </div>
+    </section>
+
+    <!-- Footer Container -->
+    <div id="footer-container"></div>
+
+    <!-- JavaScript -->
+    <script src="js/utils.js"></script>
+    <script src="js/components.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            loadComponent('navbar', 'navbar-container');
+            loadComponent('footer', 'footer-container');
+            
+            // Highlight current page in navbar
+            const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+            setTimeout(() => {
+                document.querySelectorAll('.nav-link').forEach(link => {
+                    if (link.getAttribute('href') === currentPage) {
+                        link.classList.add('text-green-600', 'font-semibold');
+                    }
+                });
+            }, 100);
+        });
+    </script>
+</body>
+</html>

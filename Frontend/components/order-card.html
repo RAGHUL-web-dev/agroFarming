@@ -1,0 +1,188 @@
+<div class="order-card-template hidden">
+    <div class="bg-white rounded-xl shadow border border-gray-200 hover:border-green-300 transition duration-300">
+        <!-- Order Header -->
+        <div class="p-4 border-b">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                <div>
+                    <div class="flex items-center gap-3 mb-1">
+                        <h3 class="font-semibold text-gray-800 order-id">Order #ORD123456</h3>
+                        <span class="px-2 py-1 text-xs rounded order-status-badge">Pending</span>
+                    </div>
+                    <p class="text-sm text-gray-600 order-date">Placed on Jan 1, 2024</p>
+                </div>
+                <div class="text-right">
+                    <p class="text-lg font-bold text-gray-800 order-total">₹0.00</p>
+                    <p class="text-sm text-gray-600 order-items">0 items</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Order Items Preview -->
+        <div class="p-4 border-b">
+            <div class="flex items-center gap-4 mb-3">
+                <div class="flex -space-x-2">
+                    <!-- Product images will be added here -->
+                    <div class="w-10 h-10 bg-gray-200 rounded-full border-2 border-white"></div>
+                    <div class="w-10 h-10 bg-gray-300 rounded-full border-2 border-white"></div>
+                    <div class="w-10 h-10 bg-gray-400 rounded-full border-2 border-white flex items-center justify-center">
+                        <span class="text-xs font-bold text-white">+2</span>
+                    </div>
+                </div>
+                <div class="text-sm text-gray-600 order-preview">
+                    <!-- Items preview text -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Order Footer -->
+        <div class="p-4">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                <div class="flex items-center gap-3">
+                    <div class="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center">
+                        <i class="fas fa-user text-gray-600"></i>
+                    </div>
+                    <div>
+                        <p class="text-sm font-medium text-gray-800 order-party">Party Name</p>
+                        <p class="text-xs text-gray-600 order-role">Role</p>
+                    </div>
+                </div>
+                <div class="flex gap-2">
+                    <button class="view-detail-btn px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 text-sm font-medium">
+                        View Details
+                    </button>
+                    <button class="action-btn px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 text-sm font-medium">
+                        Action
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function createOrderCard(order, userRole) {
+        const template = document.querySelector('.order-card-template').cloneNode(true);
+        const card = template.querySelector('div');
+        card.classList.remove('hidden');
+        card.dataset.orderId = order._id;
+
+        // Set order data
+        card.querySelector('.order-id').textContent = `Order #${order.orderId || 'N/A'}`;
+        card.querySelector('.order-date').textContent = `Placed on ${formatDate(order.createdAt)}`;
+        card.querySelector('.order-total').textContent = `₹${order.totalAmount || 0}`;
+        card.querySelector('.order-items').textContent = `${order.items?.length || 0} items`;
+
+        // Set status
+        const status = order.status || 'pending';
+        const statusBadge = card.querySelector('.order-status-badge');
+        statusBadge.textContent = status.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+        statusBadge.className = `px-2 py-1 text-xs rounded ${getStatusBadgeClass(status)}`;
+
+        // Set party info based on role
+        if (userRole === 'farmer') {
+            card.querySelector('.order-party').textContent = order.buyer?.name || 'Buyer';
+            card.querySelector('.order-role').textContent = 'Buyer';
+        } else if (userRole === 'buyer') {
+            card.querySelector('.order-party').textContent = order.farmer?.name || 'Farmer';
+            card.querySelector('.order-role').textContent = 'Farmer';
+        } else {
+            card.querySelector('.order-party').textContent = 'Multiple Parties';
+            card.querySelector('.order-role').textContent = 'Admin View';
+        }
+
+        // Set items preview
+        if (order.items && order.items.length > 0) {
+            const preview = order.items.slice(0, 3).map(item => item.name).join(', ');
+            card.querySelector('.order-preview').textContent = preview + (order.items.length > 3 ? '...' : '');
+        }
+
+        // Set action button based on status and role
+        const actionBtn = card.querySelector('.action-btn');
+        if (userRole === 'farmer') {
+            if (status === 'pending' && order.approvalStatus === 'pending') {
+                actionBtn.textContent = 'Review Order';
+                actionBtn.addEventListener('click', () => reviewOrder(order._id));
+            } else if (status === 'ready_for_delivery') {
+                actionBtn.textContent = 'Prepare Delivery';
+                actionBtn.addEventListener('click', () => prepareDelivery(order._id));
+            } else if (status === 'confirmed') {
+                actionBtn.textContent = 'Process Order';
+                actionBtn.addEventListener('click', () => processOrder(order._id));
+            } else {
+                actionBtn.style.display = 'none';
+            }
+        } else if (userRole === 'buyer') {
+            if (status === 'pending' && order.approvalStatus === 'negotiating') {
+                actionBtn.textContent = 'Respond';
+                actionBtn.addEventListener('click', () => respondToNegotiation(order._id));
+            } else if (status === 'delivered') {
+                actionBtn.textContent = 'Rate Order';
+                actionBtn.addEventListener('click', () => rateOrder(order._id));
+            } else {
+                actionBtn.style.display = 'none';
+            }
+        } else {
+            actionBtn.textContent = 'Manage';
+            actionBtn.addEventListener('click', () => manageOrder(order._id));
+        }
+
+        // View details button
+        card.querySelector('.view-detail-btn').addEventListener('click', () => viewOrderDetails(order._id));
+
+        return card;
+    }
+
+    function getStatusBadgeClass(status) {
+        const classes = {
+            'pending': 'bg-yellow-100 text-yellow-800',
+            'confirmed': 'bg-blue-100 text-blue-800',
+            'processing': 'bg-indigo-100 text-indigo-800',
+            'ready_for_delivery': 'bg-purple-100 text-purple-800',
+            'out_for_delivery': 'bg-orange-100 text-orange-800',
+            'delivered': 'bg-green-100 text-green-800',
+            'cancelled': 'bg-red-100 text-red-800',
+            'returned': 'bg-pink-100 text-pink-800'
+        };
+        return classes[status] || 'bg-gray-100 text-gray-800';
+    }
+
+    function formatDate(dateString) {
+        const date = new Date(dateString);
+        return date.toLocaleDateString('en-IN', {
+            day: 'numeric',
+            month: 'short',
+            year: 'numeric'
+        });
+    }
+
+    function viewOrderDetails(orderId) {
+        // Load order detail modal
+        loadComponent('order-detail-modal', 'order-detail-modal').then(() => {
+            window.openOrderDetailModal(orderId);
+        });
+    }
+
+    async function reviewOrder(orderId) {
+        const user = JSON.parse(localStorage.getItem('user'));
+        if (!user || user.role !== 'farmer') return;
+
+        try {
+            const response = await fetch(`http://localhost:5000/api/orders/${orderId}`, {
+                headers: {
+                    'Authorization': `Bearer ${user.token}`
+                }
+            });
+
+            if (response.ok) {
+                const order = await response.json();
+                // Show review modal with approve/reject/negotiate options
+                showOrderReviewModal(order);
+            }
+        } catch (error) {
+            console.error('Error fetching order:', error);
+            showToast('Failed to load order details', 'error');
+        }
+    }
+
+    // Other action functions would be implemented in orders-manager.js
+</script>

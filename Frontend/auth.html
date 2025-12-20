@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AgroForms - Authentication</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/custom.css">
+    <link rel="icon" type="image/x-icon" href="assets/images/favicon.ico">
+</head>
+<body class="bg-gray-50">
+    <div id="navbar-container"></div>
+
+    <main class="min-h-screen py-12">
+        <div class="container mx-auto px-4">
+            <div class="max-w-md mx-auto">
+                <!-- Logo/Header -->
+                <div class="text-center mb-8">
+                    <a href="index.html" class="inline-block">
+                        <div class="flex items-center justify-center gap-2 mb-4">
+                            <div class="w-10 h-10 bg-green-600 rounded-lg flex items-center justify-center">
+                                <i class="fas fa-leaf text-white text-xl"></i>
+                            </div>
+                            <span class="text-2xl font-bold text-gray-800">AgroForms</span>
+                        </div>
+                    </a>
+                    <h1 id="auth-title" class="text-2xl font-bold text-gray-800">Welcome Back</h1>
+                    <p id="auth-subtitle" class="text-gray-600">Sign in to your account to continue</p>
+                </div>
+
+                <!-- Auth Form Container -->
+                <div id="auth-form-container" class="bg-white rounded-xl shadow-lg p-8">
+                    <!-- Login Form will be loaded here -->
+                </div>
+
+                <!-- Switch between Login/Register -->
+                <div id="auth-switch" class="text-center mt-6">
+                    <p id="switch-text" class="text-gray-600">
+                        Don't have an account? 
+                        <button onclick="switchToRegister()" class="text-green-600 hover:text-green-700 font-semibold">
+                            Sign up now
+                        </button>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div id="footer-container"></div>
+
+    <!-- Load scripts in correct order -->
+    <script src="js/config.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/components.js"></script>
+    <script src="js/api.js"></script>
+    
+    <!-- Auth-specific script -->
+    <script>
+        // Check if user is already logged in
+        const user = JSON.parse(localStorage.getItem('user'));
+        if (user && user.token) {
+            // User is already logged in, redirect to appropriate dashboard
+            setTimeout(() => {
+                if (user.role === 'farmer') window.location.href = 'dashboard.html?role=farmer';
+                else if (user.role === 'buyer') window.location.href = 'dashboard.html?role=buyer';
+                else if (user.role === 'admin') window.location.href = 'admin-panel.html';
+                else window.location.href = 'dashboard.html';
+            }, 100);
+        }
+        
+        // Load components
+        document.addEventListener('DOMContentLoaded', async function() {
+            await loadComponent('navbar', 'navbar-container');
+            await loadComponent('footer', 'footer-container');
+            
+            // Load appropriate form based on URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const action = urlParams.get('action');
+            
+            if (action === 'register') {
+                loadRegisterForm();
+            } else {
+                loadLoginForm();
+            }
+        });
+        
+        function loadLoginForm() {
+            const container = document.getElementById('auth-form-container');
+            const title = document.getElementById('auth-title');
+            const subtitle = document.getElementById('auth-subtitle');
+            const switchText = document.getElementById('switch-text');
+            
+            title.textContent = 'Welcome Back';
+            subtitle.textContent = 'Sign in to your account to continue';
+            
+            switchText.innerHTML = `
+                Don't have an account? 
+                <button onclick="switchToRegister()" class="text-green-600 hover:text-green-700 font-semibold">
+                    Sign up now
+                </button>
+            `;
+            
+            container.innerHTML = `
+                <form id="login-form" class="space-y-6">
+                    <div>
+                        <label for="login-email" class="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
+                        <input type="email" id="login-email" required 
+                               class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 transition duration-300"
+                               placeholder="you@example.com">
+                    </div>
+                    <div>
+                        <label for="login-password" class="block text-sm font-medium text-gray-700 mb-2">Password</label>
+                        <input type="password" id="login-password" required 
+                               class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 transition duration-300"
+                               placeholder="••••••••">
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center">
+                            <input type="checkbox" id="remember-me" class="h-4 w-4 text-green-600 focus:ring-green-500 border-gray-300 rounded">
+                            <label for="remember-me" class="ml-2 text-sm text-gray-700">Remember me</label>
+                        </div>
+                        <button type="button" onclick="showForgotPassword()" class="text-sm text-green-600 hover:text-green-700 font-medium">
+                            Forgot password?
+                        </button>
+                    </div>
+                    <button type="submit" class="w-full bg-green-600 text-white py-3 rounded-lg font-semibold hover:bg-green-700 transition duration-300 flex items-center justify-center gap-2">
+                        <i class="fas fa-sign-in-alt"></i> Sign In
+                    </button>
+                </form>
+            `;
+            
+            // Add form submit handler
+            const form = document.getElementById('login-form');
+            form.addEventListener('submit', handleLogin);
+        }
+        
+        function loadRegisterForm() {
+            const container = document.getElementById('auth-form-container');
+            const title = document.getElementById('auth-title');
+            const subtitle = document.getElementById('auth-subtitle');
+            const switchText = document.getElementById('switch-text');
+            
+            title.textContent = 'Create Account';
+            subtitle.textContent = 'Join AgroForms today';
+            
+            switchText.innerHTML = `
+                Already have an account? 
+                <button onclick="switchToLogin()" class="text-green-600 hover:text-green-700 font-semibold">
+                    Sign in
+                </button>
+            `;
+            
+            // Get role from URL if present
+            const urlParams = new URLSearchParams(window.location.search);
+            const role = urlParams.get('role') || 'buyer';
+            
+            container.innerHTML = `
+                <form id="register-form" class="space-y-6">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">I want to register as:</label>
+                        <div class="grid grid-cols-2 gap-4 mb-4">
+                            <button type="button" id="role-farmer-btn" onclick="selectRole('farmer')" 
+                                    class="py-3 border-2 ${role === 'farmer' ? 'border-green-500 text-green-600' : 'border-gray-300 text-gray-600'} rounded-lg font-semibold hover:bg-gray-50 transition duration-300">
+                                <i class="fas fa-tractor mr-2"></i> Farmer
+                            </button>
+                            <button type="button" id="role-buyer-btn" onclick="selectRole('buyer')" 
+                                    class="py-3 border-2 ${role === 'buyer' ? 'border-green-500 text-green-600' : 'border-gray-300 text-gray-600'} rounded-lg font-semibold hover:bg-gray-50 transition duration-300">
+                                <i class="fas fa-store mr-2"></i> Buyer
+                            </button>
+                        </div>
+                        <input type="hidden" id="register-role" value="${role}" required>
+                    </div>
+
+                    <div id="farmer-type-section" class="${role === 'farmer' ? '' : 'hidden'}">
+                        <label for="farmer-type" class="block text-sm font-medium text-gray-700 mb-2">Farming Type</label>
+                        <select id="farmer-type" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500">
+                            <option value="crop">Crop Farming</option>
+                            <option value="livestock">Livestock Farming</option>
+                            <option value="poultry">Poultry Farming</option>
+                            <option value="mixed">Mixed Farming</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label for="register-name" class="block text-sm font-medium text-gray-700 mb-2">Full Name</label>
+                        <input type="text" id="register-name" required 
+                               class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500"
+                               placeholder="John Doe">
+                    </div>
+
+                    <div>
+                        <label for="register-email" class="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
+                        <input type="email" id="register-email" required 
+                               class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500"
+                               placeholder="you@example.com">
+                    </div>
+
+                    <div>
+                        <label for="register-phone" class="block text-sm font-medium text-gray-700 mb-2">Phone Number</label>
+                        <input type="tel" id="register-phone" required 
+                               class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500"
+                               placeholder="9876543210">
+                    </div>
+
+                    <div>
+                        <label for="register-password" class="block text-sm font-medium text-gray-700 mb-2">Password</label>
+                        <input type="password" id="register-password" required 
+                               class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500"
+                               placeholder="••••••••"
+                               minlength="6">
+                        <p class="text-xs text-gray-500 mt-1">Must be at least 6 characters</p>
+                    </div>
+
+                    <div>
+                        <label for="register-confirm-password" class="block text-sm font-medium text-gray-700 mb-2">Confirm Password</label>
+                        <input type="password" id="register-confirm-password" required 
+                               class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500"
+                               placeholder="••••••••">
+                    </div>
+
+                    <div class="flex items-center">
+                        <input type="checkbox" id="terms" required class="h-4 w-4 text-green-600 focus:ring-green-500 border-gray-300 rounded">
+                        <label for="terms" class="ml-2 text-sm text-gray-700">
+                            I agree to the <a href="#" class="text-green-600 hover:text-green-700">Terms of Service</a> and <a href="#" class="text-green-600 hover:text-green-700">Privacy Policy</a>
+                        </label>
+                    </div>
+
+                    <button type="submit" class="w-full bg-green-600 text-white py-3 rounded-lg font-semibold hover:bg-green-700 transition duration-300 flex items-center justify-center gap-2">
+                        <i class="fas fa-user-plus"></i> Create Account
+                    </button>
+                </form>
+            `;
+            
+            // Add form submit handler
+            const form = document.getElementById('register-form');
+            form.addEventListener('submit', handleRegister);
+        }
+        
+        function showForgotPassword() {
+            const container = document.getElementById('auth-form-container');
+            const title = document.getElementById('auth-title');
+            const subtitle = document.getElementById('auth-subtitle');
+            const switchText = document.getElementById('switch-text');
+            
+            title.textContent = '';
+            subtitle.textContent = '';
+            switchText.innerHTML = '';
+            
+            container.innerHTML = `
+                <div class="text-center mb-4">
+                    <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-key text-green-600 text-2xl"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold text-gray-800">Reset Your Password</h3>
+                    <p class="text-gray-600 text-sm mt-2">Enter your email address and we'll send you a link to reset your password.</p>
+                </div>
+                
+                <form id="forgot-password-form" class="space-y-6">
+                    <div>
+                        <label for="forgot-email" class="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
+                        <input type="email" id="forgot-email" required 
+                               class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500"
+                               placeholder="you@example.com">
+                    </div>
+
+                    <button type="submit" class="w-full bg-green-600 text-white py-3 rounded-lg font-semibold hover:bg-green-700 transition duration-300">
+                        Send Reset Link
+                    </button>
+
+                    <button type="button" onclick="switchToLogin()" class="w-full text-center text-green-600 hover:text-green-700 font-medium text-sm">
+                        <i class="fas fa-arrow-left mr-2"></i> Back to Login
+                    </button>
+                </form>
+            `;
+            
+            const form = document.getElementById('forgot-password-form');
+            form.addEventListener('submit', handleForgotPassword);
+        }
+        
+        // Form handlers
+        async function handleLogin(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+            
+            if (!email || !password) {
+                alert('Please fill in all fields');
+                return;
+            }
+            
+            try {
+                const response = await fetch('http://localhost:5000/api/auth/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ email, password })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok && data.success) {
+                    localStorage.setItem('user', JSON.stringify({
+                        ...data.user,
+                        token: data.token
+                    }));
+                    
+                    alert('Login successful!');
+                    
+                    // Redirect based on role
+                    if (data.user.role === 'farmer') {
+                        window.location.href = 'dashboard.html?role=farmer';
+                    } else if (data.user.role === 'buyer') {
+                        window.location.href = 'dashboard.html?role=buyer';
+                    } else if (data.user.role === 'admin') {
+                        window.location.href = 'admin-panel.html';
+                    } else {
+                        window.location.href = 'dashboard.html';
+                    }
+                } else {
+                    alert(data.message || 'Login failed');
+                }
+            } catch (error) {
+                console.error('Login error:', error);
+                alert('Login failed. Please try again.');
+            }
+        }
+        
+        async function handleRegister(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('register-name').value;
+            const email = document.getElementById('register-email').value;
+            const phone = document.getElementById('register-phone').value;
+            const password = document.getElementById('register-password').value;
+            const confirmPassword = document.getElementById('register-confirm-password').value;
+            const role = document.getElementById('register-role').value;
+            const farmerType = role === 'farmer' ? document.getElementById('farmer-type').value : null;
+            const terms = document.getElementById('terms').checked;
+            
+            // Simple validation
+            if (!name || !email || !phone || !password || !confirmPassword) {
+                alert('Please fill in all fields');
+                return;
+            }
+            
+            if (password !== confirmPassword) {
+                alert('Passwords do not match');
+                return;
+            }
+            
+            if (!terms) {
+                alert('Please agree to the terms and conditions');
+                return;
+            }
+            
+            try {
+                const response = await fetch('http://localhost:5000/api/auth/register', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        name,
+                        email,
+                        phone,
+                        password,
+                        role,
+                        farmerType
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok && data.success) {
+                    localStorage.setItem('user', JSON.stringify({
+                        ...data.user,
+                        token: data.token
+                    }));
+                    
+                    alert('Registration successful!');
+                    
+                    // Redirect based on role
+                    if (data.user.role === 'farmer') {
+                        window.location.href = 'dashboard.html?role=farmer';
+                    } else if (data.user.role === 'buyer') {
+                        window.location.href = 'dashboard.html?role=buyer';
+                    } else if (data.user.role === 'admin') {
+                        window.location.href = 'admin-panel.html';
+                    } else {
+                        window.location.href = 'dashboard.html';
+                    }
+                } else {
+                    alert(data.message || 'Registration failed');
+                }
+            } catch (error) {
+                console.error('Registration error:', error);
+                alert('Registration failed. Please try again.');
+            }
+        }
+        
+        function handleForgotPassword(e) {
+            e.preventDefault();
+            alert('Password reset link would be sent to your email (functionality to be implemented)');
+            switchToLogin();
+        }
+        
+        // Helper functions
+        function switchToLogin() {
+            window.location.href = 'auth.html';
+        }
+        
+        function switchToRegister() {
+            window.location.href = 'auth.html?action=register';
+        }
+        
+        function selectRole(role) {
+            document.getElementById('register-role').value = role;
+            
+            // Update button styles
+            const farmerBtn = document.getElementById('role-farmer-btn');
+            const buyerBtn = document.getElementById('role-buyer-btn');
+            const farmerTypeSection = document.getElementById('farmer-type-section');
+            
+            if (role === 'farmer') {
+                farmerBtn.classList.add('border-green-500', 'text-green-600');
+                farmerBtn.classList.remove('border-gray-300', 'text-gray-600');
+                buyerBtn.classList.add('border-gray-300', 'text-gray-600');
+                buyerBtn.classList.remove('border-green-500', 'text-green-600');
+                farmerTypeSection.classList.remove('hidden');
+            } else {
+                buyerBtn.classList.add('border-green-500', 'text-green-600');
+                buyerBtn.classList.remove('border-gray-300', 'text-gray-600');
+                farmerBtn.classList.add('border-gray-300', 'text-gray-600');
+                farmerBtn.classList.remove('border-green-500', 'text-green-600');
+                farmerTypeSection.classList.add('hidden');
+            }
+        }
+        
+        // Make functions globally available
+        window.showForgotPassword = showForgotPassword;
+        window.switchToLogin = switchToLogin;
+        window.switchToRegister = switchToRegister;
+        window.selectRole = selectRole;
+    </script>
+</body>
+</html>

@@ -1,0 +1,139 @@
+<div class="toast-container fixed top-4 right-4 z-50 space-y-3"></div>
+
+<div class="toast-template hidden">
+    <div class="bg-white rounded-lg shadow-lg border-l-4 p-4 min-w-80 max-w-md flex items-start gap-3 animate-slide-in">
+        <!-- Icon -->
+        <div class="toast-icon w-6 h-6 rounded-full flex items-center justify-center">
+            <i class="fas fa-info-circle text-white text-sm"></i>
+        </div>
+        
+        <!-- Content -->
+        <div class="flex-1">
+            <h4 class="font-semibold text-gray-800 toast-title">Title</h4>
+            <p class="text-sm text-gray-600 mt-1 toast-message">Message content here</p>
+        </div>
+        
+        <!-- Close Button -->
+        <button class="toast-close-btn text-gray-400 hover:text-gray-600">
+            <i class="fas fa-times"></i>
+        </button>
+    </div>
+</div>
+
+<script>
+    function showToast(message, type = 'info', duration = 5000) {
+        const template = document.querySelector('.toast-template').cloneNode(true);
+        const toast = template.querySelector('div');
+        toast.classList.remove('hidden');
+        
+        // Set toast type
+        const iconDiv = toast.querySelector('.toast-icon');
+        const icon = toast.querySelector('.toast-icon i');
+        
+        const toastConfig = {
+            'success': {
+                border: 'border-green-500',
+                bg: 'bg-green-100',
+                icon: 'fas fa-check-circle',
+                title: 'Success'
+            },
+            'error': {
+                border: 'border-red-500',
+                bg: 'bg-red-100',
+                icon: 'fas fa-exclamation-circle',
+                title: 'Error'
+            },
+            'warning': {
+                border: 'border-yellow-500',
+                bg: 'bg-yellow-100',
+                icon: 'fas fa-exclamation-triangle',
+                title: 'Warning'
+            },
+            'info': {
+                border: 'border-blue-500',
+                bg: 'bg-blue-100',
+                icon: 'fas fa-info-circle',
+                title: 'Info'
+            }
+        };
+        
+        const config = toastConfig[type] || toastConfig.info;
+        
+        // Update toast styling
+        toast.classList.add(config.border);
+        iconDiv.className = `toast-icon w-6 h-6 rounded-full flex items-center justify-center ${config.bg}`;
+        icon.className = config.icon;
+        icon.style.color = config.bg.replace('bg-', 'text-').replace('-100', '-600');
+        
+        // Set content
+        toast.querySelector('.toast-title').textContent = config.title;
+        toast.querySelector('.toast-message').textContent = message;
+        
+        // Close button
+        toast.querySelector('.toast-close-btn').addEventListener('click', () => {
+            removeToast(toast);
+        });
+        
+        // Add to container
+        const container = document.querySelector('.toast-container');
+        if (!container) {
+            // Create container if it doesn't exist
+            const newContainer = document.createElement('div');
+            newContainer.className = 'toast-container fixed top-4 right-4 z-50 space-y-3';
+            document.body.appendChild(newContainer);
+            newContainer.appendChild(toast);
+        } else {
+            container.appendChild(toast);
+        }
+        
+        // Auto remove after duration
+        if (duration > 0) {
+            setTimeout(() => {
+                removeToast(toast);
+            }, duration);
+        }
+        
+        return toast;
+    }
+    
+    function removeToast(toast) {
+        toast.classList.add('animate-slide-out');
+        setTimeout(() => {
+            if (toast.parentNode) {
+                toast.parentNode.removeChild(toast);
+            }
+        }, 300);
+    }
+</script>
+
+<style>
+    @keyframes slide-in {
+        from {
+            transform: translateX(100%);
+            opacity: 0;
+        }
+        to {
+            transform: translateX(0);
+            opacity: 1;
+        }
+    }
+    
+    @keyframes slide-out {
+        from {
+            transform: translateX(0);
+            opacity: 1;
+        }
+        to {
+            transform: translateX(100%);
+            opacity: 0;
+        }
+    }
+    
+    .animate-slide-in {
+        animation: slide-in 0.3s ease-out forwards;
+    }
+    
+    .animate-slide-out {
+        animation: slide-out 0.3s ease-in forwards;
+    }
+</style>
