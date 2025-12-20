@@ -17,27 +17,143 @@
     <div id="navbar-container"></div>
 
     <!-- Hero Section -->
-    <section class="bg-gradient-to-r from-green-600 to-emerald-700 text-white">
-        <div class="container mx-auto px-4 py-20">
+    <section class="bg-gradient-to-r from-green-600 to-emerald-700 text-white relative overflow-hidden">
+        <!-- Background pattern -->
+        <div class="absolute inset-0 opacity-10">
+            <div class="absolute inset-0" style="background-image: url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80'); background-size: cover;"></div>
+        </div>
+        
+        <div class="container mx-auto px-4 py-20 relative z-10">
             <div class="flex flex-col lg:flex-row items-center">
                 <div class="lg:w-1/2 mb-10 lg:mb-0">
-                    <h1 class="text-4xl lg:text-5xl font-bold mb-6">Connecting Farmers Directly to Retailers</h1>
-                    <p class="text-xl mb-8 opacity-90">A comprehensive platform bridging the gap between agricultural producers and retailers/wholesalers. Minimize middlemen, maximize profits.</p>
-                    <!-- In the Hero Section of index.html -->
+                    <h1 class="text-4xl lg:text-5xl font-bold mb-6 leading-tight">Connecting Farmers Directly to Retailers</h1>
+                    <p class="text-xl mb-8 opacity-90 leading-relaxed">A comprehensive platform bridging the gap between agricultural producers and retailers/wholesalers. Minimize middlemen, maximize profits.</p>
                     <div class="flex flex-col sm:flex-row gap-4">
-                        <a href="auth.html?action=register" class="bg-white text-green-700 px-8 py-3 rounded-lg font-semibold text-lg hover:bg-gray-100 transition duration-300 text-center">
+                        <a href="auth.html?action=register" class="bg-white text-green-700 px-8 py-3 rounded-lg font-semibold text-lg hover:bg-gray-100 transition duration-300 text-center shadow-lg hover:shadow-xl transform hover:-translate-y-1">
                             Get Started <i class="ml-2 fas fa-arrow-right"></i>
                         </a>
-                        <a href="#features" class="bg-transparent border-2 border-white text-white px-8 py-3 rounded-lg font-semibold text-lg hover:bg-white hover:text-green-700 transition duration-300 text-center">
+                        <a href="#features" class="bg-transparent border-2 border-white text-white px-8 py-3 rounded-lg font-semibold text-lg hover:bg-white hover:text-green-700 transition duration-300 text-center shadow-lg hover:shadow-xl transform hover:-translate-y-1">
                             Learn More
                         </a>
                     </div>
+                    
+                    <!-- Stats Cards -->
+                    <div class="mt-12 grid grid-cols-2 md:grid-cols-3 gap-4">
+                        <div class="bg-white/10 backdrop-blur-sm rounded-xl p-4 border border-white/20">
+                            <div class="text-2xl font-bold">10,000+</div>
+                            <div class="text-sm opacity-90">Farmers Connected</div>
+                        </div>
+                        <div class="bg-white/10 backdrop-blur-sm rounded-xl p-4 border border-white/20">
+                            <div class="text-2xl font-bold">5,000+</div>
+                            <div class="text-sm opacity-90">Retailers Active</div>
+                        </div>
+                        <div class="bg-white/10 backdrop-blur-sm rounded-xl p-4 border border-white/20 col-span-2 md:col-span-1">
+                            <div class="text-2xl font-bold">₹50Cr+</div>
+                            <div class="text-sm opacity-90">Transactions</div>
+                        </div>
+                    </div>
                 </div>
                 <div class="lg:w-1/2">
-                    <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/20">
-                        <img src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
-                             alt="Farm Marketplace" 
-                             class="rounded-xl shadow-2xl">
+                    <div class="relative">
+                        <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-2 border border-white/20 shadow-2xl">
+                            <img src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                                 alt="Farm Marketplace" 
+                                 class="rounded-xl shadow-2xl w-full h-64 object-cover">
+                        </div>
+                        <!-- Floating Cards -->
+                        <div class="absolute -bottom-6 -left-6 bg-white rounded-xl shadow-2xl p-4 w-48">
+                            <div class="flex items-center">
+                                <div class="bg-green-100 p-3 rounded-lg">
+                                    <i class="fas fa-tractor text-green-600"></i>
+                                </div>
+                                <div class="ml-4">
+                                    <div class="font-bold text-gray-800">Farmers</div>
+                                    <div class="text-sm text-gray-600">List Products</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="absolute -top-6 -right-6 bg-white rounded-xl shadow-2xl p-4 w-48">
+                            <div class="flex items-center">
+                                <div class="bg-blue-100 p-3 rounded-lg">
+                                    <i class="fas fa-store text-blue-600"></i>
+                                </div>
+                                <div class="ml-4">
+                                    <div class="font-bold text-gray-800">Retailers</div>
+                                    <div class="text-sm text-gray-600">Buy Directly</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Success Stories -->
+    <section class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center mb-12 text-gray-800">Success Stories</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Story 1 -->
+                <div class="bg-gradient-to-br from-green-50 to-emerald-50 rounded-2xl p-6 shadow-lg hover:shadow-xl transition duration-300">
+                    <div class="flex items-center mb-4">
+                        <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" 
+                             alt="Farmer" 
+                             class="w-16 h-16 rounded-full object-cover border-4 border-white shadow">
+                        <div class="ml-4">
+                            <h4 class="font-bold text-gray-800">Rajesh Kumar</h4>
+                            <p class="text-sm text-gray-600">Farmer, Punjab</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 mb-4">"AgroForms helped me increase my income by 40% by connecting directly with retailers in Delhi."</p>
+                    <div class="flex text-yellow-400">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                </div>
+
+                <!-- Story 2 -->
+                <div class="bg-gradient-to-br from-blue-50 to-cyan-50 rounded-2xl p-6 shadow-lg hover:shadow-xl transition duration-300">
+                    <div class="flex items-center mb-4">
+                        <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" 
+                             alt="Retailer" 
+                             class="w-16 h-16 rounded-full object-cover border-4 border-white shadow">
+                        <div class="ml-4">
+                            <h4 class="font-bold text-gray-800">Priya Sharma</h4>
+                            <p class="text-sm text-gray-600">Retailer, Mumbai</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 mb-4">"Direct sourcing from farmers reduced my costs by 25% and improved product quality significantly."</p>
+                    <div class="flex text-yellow-400">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                    </div>
+                </div>
+
+                <!-- Story 3 -->
+                <div class="bg-gradient-to-br from-amber-50 to-orange-50 rounded-2xl p-6 shadow-lg hover:shadow-xl transition duration-300">
+                    <div class="flex items-center mb-4">
+                        <img src="https://images.unsplash.com/photo-1582750433449-648ed127bb54?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" 
+                             alt="Dairy Farmer" 
+                             class="w-16 h-16 rounded-full object-cover border-4 border-white shadow">
+                        <div class="ml-4">
+                            <h4 class="font-bold text-gray-800">Sunil Patel</h4>
+                            <p class="text-sm text-gray-600">Dairy Farmer, Gujarat</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 mb-4">"Selling milk and dairy products directly to retailers has doubled my monthly earnings."</p>
+                    <div class="flex text-yellow-400">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
                     </div>
                 </div>
             </div>
@@ -45,158 +161,316 @@
     </section>
 
     <!-- Features Section -->
-    <section id="features" class="py-20 bg-white">
+    <section id="features" class="py-20 bg-gradient-to-b from-white to-gray-50">
         <div class="container mx-auto px-4">
-            <h2 class="text-3xl font-bold text-center mb-4 text-gray-800">Why Choose AgroForms?</h2>
-            <p class="text-gray-600 text-center mb-12 max-w-2xl mx-auto">Revolutionizing the agricultural supply chain with technology-driven solutions</p>
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold mb-4 text-gray-800">Why Choose AgroForms?</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto text-lg">Revolutionizing the agricultural supply chain with technology-driven solutions</p>
+            </div>
             
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 <!-- Feature 1 -->
-                <div class="bg-gray-50 p-6 rounded-xl border border-gray-200 hover:border-green-500 transition duration-300">
-                    <div class="bg-green-100 w-16 h-16 rounded-full flex items-center justify-center mb-4">
-                        <i class="fas fa-users text-green-600 text-2xl"></i>
+                <div class="bg-white p-6 rounded-2xl shadow-lg hover:shadow-xl transition duration-300 border-l-4 border-green-500">
+                    <div class="flex items-start mb-4">
+                        <div class="bg-green-100 p-3 rounded-xl">
+                            <i class="fas fa-users text-green-600 text-2xl"></i>
+                        </div>
+                        <div class="ml-4">
+                            <h3 class="text-xl font-semibold mb-2">Direct Connections</h3>
+                            <p class="text-gray-600">Eliminate middlemen and connect directly with farmers or retailers. Transparent pricing and fair trade.</p>
+                        </div>
                     </div>
-                    <h3 class="text-xl font-semibold mb-3">Direct Connections</h3>
-                    <p class="text-gray-600">Eliminate middlemen and connect directly with farmers or retailers. Transparent pricing and fair trade opportunities.</p>
+                    <div class="mt-4">
+                        <img src="https://images.unsplash.com/photo-1559131397-f94da358a2c7?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80" 
+                             alt="Direct Connection" 
+                             class="rounded-lg w-full h-40 object-cover">
+                    </div>
                 </div>
 
                 <!-- Feature 2 -->
-                <div class="bg-gray-50 p-6 rounded-xl border border-gray-200 hover:border-green-500 transition duration-300">
-                    <div class="bg-green-100 w-16 h-16 rounded-full flex items-center justify-center mb-4">
-                        <i class="fas fa-seedling text-green-600 text-2xl"></i>
+                <div class="bg-white p-6 rounded-2xl shadow-lg hover:shadow-xl transition duration-300 border-l-4 border-green-500">
+                    <div class="flex items-start mb-4">
+                        <div class="bg-green-100 p-3 rounded-xl">
+                            <i class="fas fa-seedling text-green-600 text-2xl"></i>
+                        </div>
+                        <div class="ml-4">
+                            <h3 class="text-xl font-semibold mb-2">Dual Categories</h3>
+                            <p class="text-gray-600">Access both crop produce and livestock/poultry products in one unified platform.</p>
+                        </div>
                     </div>
-                    <h3 class="text-xl font-semibold mb-3">Dual Categories</h3>
-                    <p class="text-gray-600">Access both crop produce and livestock/poultry products in one platform. From grains to goat milk, we have it all.</p>
+                    <div class="mt-4">
+                        <img src="https://images.unsplash.com/photo-1505253668822-42074d58a7c6?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80" 
+                             alt="Crops and Livestock" 
+                             class="rounded-lg w-full h-40 object-cover">
+                    </div>
                 </div>
 
                 <!-- Feature 3 -->
-                <div class="bg-gray-50 p-6 rounded-xl border border-gray-200 hover:border-green-500 transition duration-300">
-                    <div class="bg-green-100 w-16 h-16 rounded-full flex items-center justify-center mb-4">
-                        <i class="fas fa-shipping-fast text-green-600 text-2xl"></i>
+                <div class="bg-white p-6 rounded-2xl shadow-lg hover:shadow-xl transition duration-300 border-l-4 border-green-500">
+                    <div class="flex items-start mb-4">
+                        <div class="bg-green-100 p-3 rounded-xl">
+                            <i class="fas fa-shipping-fast text-green-600 text-2xl"></i>
+                        </div>
+                        <div class="ml-4">
+                            <h3 class="text-xl font-semibold mb-2">Integrated Logistics</h3>
+                            <p class="text-gray-600">Schedule deliveries, track shipments in real-time, and manage your supply chain efficiently.</p>
+                        </div>
                     </div>
-                    <h3 class="text-xl font-semibold mb-3">Integrated Logistics</h3>
-                    <p class="text-gray-600">Schedule deliveries, track shipments in real-time, and manage your supply chain efficiently from farm to retailer.</p>
+                    <div class="mt-4">
+                        <img src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80" 
+                             alt="Logistics" 
+                             class="rounded-lg w-full h-40 object-cover">
+                    </div>
                 </div>
 
                 <!-- Feature 4 -->
-                <div class="bg-gray-50 p-6 rounded-xl border border-gray-200 hover:border-green-500 transition duration-300">
-                    <div class="bg-green-100 w-16 h-16 rounded-full flex items-center justify-center mb-4">
-                        <i class="fas fa-chart-line text-green-600 text-2xl"></i>
+                <div class="bg-white p-6 rounded-2xl shadow-lg hover:shadow-xl transition duration-300 border-l-4 border-green-500">
+                    <div class="flex items-start mb-4">
+                        <div class="bg-green-100 p-3 rounded-xl">
+                            <i class="fas fa-chart-line text-green-600 text-2xl"></i>
+                        </div>
+                        <div class="ml-4">
+                            <h3 class="text-xl font-semibold mb-2">Smart Analytics</h3>
+                            <p class="text-gray-600">Make informed decisions with price trends, demand analysis, and earnings reports.</p>
+                        </div>
                     </div>
-                    <h3 class="text-xl font-semibold mb-3">Smart Analytics</h3>
-                    <p class="text-gray-600">Make informed decisions with price trends, demand analysis, and earnings reports. Plan better with market insights.</p>
+                    <div class="mt-4">
+                        <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80" 
+                             alt="Analytics" 
+                             class="rounded-lg w-full h-40 object-cover">
+                    </div>
                 </div>
 
                 <!-- Feature 5 -->
-                <div class="bg-gray-50 p-6 rounded-xl border border-gray-200 hover:border-green-500 transition duration-300">
-                    <div class="bg-green-100 w-16 h-16 rounded-full flex items-center justify-center mb-4">
-                        <i class="fas fa-handshake text-green-600 text-2xl"></i>
+                <div class="bg-white p-6 rounded-2xl shadow-lg hover:shadow-xl transition duration-300 border-l-4 border-green-500">
+                    <div class="flex items-start mb-4">
+                        <div class="bg-green-100 p-3 rounded-xl">
+                            <i class="fas fa-handshake text-green-600 text-2xl"></i>
+                        </div>
+                        <div class="ml-4">
+                            <h3 class="text-xl font-semibold mb-2">Fair Negotiation</h3>
+                            <p class="text-gray-600">Negotiate prices directly with producers. Get the best deals for bulk orders.</p>
+                        </div>
                     </div>
-                    <h3 class="text-xl font-semibold mb-3">Fair Negotiation</h3>
-                    <p class="text-gray-600">Negotiate prices directly with producers. Get the best deals for bulk orders with our transparent bidding system.</p>
+                    <div class="mt-4">
+                        <img src="https://images.unsplash.com/photo-1556155092-490a1ba16284?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80" 
+                             alt="Negotiation" 
+                             class="rounded-lg w-full h-40 object-cover">
+                    </div>
                 </div>
 
                 <!-- Feature 6 -->
-                <div class="bg-gray-50 p-6 rounded-xl border border-gray-200 hover:border-green-500 transition duration-300">
-                    <div class="bg-green-100 w-16 h-16 rounded-full flex items-center justify-center mb-4">
-                        <i class="fas fa-shield-alt text-green-600 text-2xl"></i>
+                <div class="bg-white p-6 rounded-2xl shadow-lg hover:shadow-xl transition duration-300 border-l-4 border-green-500">
+                    <div class="flex items-start mb-4">
+                        <div class="bg-green-100 p-3 rounded-xl">
+                            <i class="fas fa-shield-alt text-green-600 text-2xl"></i>
+                        </div>
+                        <div class="ml-4">
+                            <h3 class="text-xl font-semibold mb-2">Verified Users</h3>
+                            <p class="text-gray-600">All farmers and buyers are verified for authenticity. Quality assurance guaranteed.</p>
+                        </div>
                     </div>
-                    <h3 class="text-xl font-semibold mb-3">Verified Users</h3>
-                    <p class="text-gray-600">All farmers and buyers are verified for authenticity. Quality assurance and secure transactions guaranteed.</p>
+                    <div class="mt-4">
+                        <img src="https://images.unsplash.com/photo-1563013544-824ae1b704d3?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80" 
+                             alt="Verification" 
+                             class="rounded-lg w-full h-40 object-cover">
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Categories Section -->
-    <section class="py-20 bg-gray-50">
+    <section class="py-20 bg-white">
         <div class="container mx-auto px-4">
-            <h2 class="text-3xl font-bold text-center mb-4 text-gray-800">Our Product Categories</h2>
-            <p class="text-gray-600 text-center mb-12 max-w-2xl mx-auto">Comprehensive range of agricultural products from both plant and animal sources</p>
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold mb-4 text-gray-800">Our Product Categories</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto text-lg">Comprehensive range of agricultural products from both plant and animal sources</p>
+            </div>
             
-            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                 <!-- Crop -->
-                <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition duration-300">
-                    <div class="h-40 bg-gradient-to-br from-green-400 to-emerald-600 flex items-center justify-center">
-                        <i class="fas fa-leaf text-white text-5xl"></i>
+                <div class="group relative bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition duration-300">
+                    <div class="h-48 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1415795854641-f4a487a0fdc8?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" 
+                             alt="Crop Produce" 
+                             class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
                     </div>
                     <div class="p-6">
-                        <h3 class="font-bold text-lg mb-2">Crop Produce</h3>
-                        <p class="text-gray-600 text-sm">Vegetables, Fruits, Grains</p>
+                        <div class="flex items-center mb-3">
+                            <div class="bg-green-100 p-2 rounded-lg">
+                                <i class="fas fa-leaf text-green-600 text-xl"></i>
+                            </div>
+                            <h3 class="font-bold text-lg ml-3">Crop Produce</h3>
+                        </div>
+                        <p class="text-gray-600 text-sm mb-4">Vegetables, Fruits, Grains, Pulses, Spices</p>
+                        <a href="#" class="text-green-600 font-semibold text-sm hover:text-green-700">
+                            Explore Products <i class="ml-1 fas fa-arrow-right"></i>
+                        </a>
                     </div>
                 </div>
 
                 <!-- Goat -->
-                <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition duration-300">
-                    <div class="h-40 bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center">
-                        <i class="fas fa-horse text-white text-5xl"></i>
+                <div class="group relative bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition duration-300">
+                    <div class="h-48 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1527153857715-3908f2bae5e8?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" 
+                             alt="Goat Products" 
+                             class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
                     </div>
                     <div class="p-6">
-                        <h3 class="font-bold text-lg mb-2">Goat</h3>
-                        <p class="text-gray-600 text-sm">Milk, Meat, Live Animals</p>
+                        <div class="flex items-center mb-3">
+                            <div class="bg-amber-100 p-2 rounded-lg">
+                                <i class="fas fa-horse text-amber-600 text-xl"></i>
+                            </div>
+                            <h3 class="font-bold text-lg ml-3">Goat</h3>
+                        </div>
+                        <p class="text-gray-600 text-sm mb-4">Milk, Meat, Live Animals, Cheese</p>
+                        <a href="#" class="text-amber-600 font-semibold text-sm hover:text-amber-700">
+                            Explore Products <i class="ml-1 fas fa-arrow-right"></i>
+                        </a>
                     </div>
                 </div>
 
                 <!-- Cow -->
-                <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition duration-300">
-                    <div class="h-40 bg-gradient-to-br from-brown-400 to-yellow-700 flex items-center justify-center">
-                        <i class="fas fa-cow text-white text-5xl"></i>
+                <div class="group relative bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition duration-300">
+                    <div class="h-48 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" 
+                             alt="Cow Products" 
+                             class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
                     </div>
                     <div class="p-6">
-                        <h3 class="font-bold text-lg mb-2">Cow</h3>
-                        <p class="text-gray-600 text-sm">Milk, Ghee, Curd, Dung Cakes</p>
+                        <div class="flex items-center mb-3">
+                            <div class="bg-yellow-100 p-2 rounded-lg">
+                                <i class="fas fa-cow text-yellow-700 text-xl"></i>
+                            </div>
+                            <h3 class="font-bold text-lg ml-3">Cow</h3>
+                        </div>
+                        <p class="text-gray-600 text-sm mb-4">Milk, Ghee, Curd, Dung Cakes, Butter</p>
+                        <a href="#" class="text-yellow-700 font-semibold text-sm hover:text-yellow-800">
+                            Explore Products <i class="ml-1 fas fa-arrow-right"></i>
+                        </a>
                     </div>
                 </div>
 
                 <!-- Hen -->
-                <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition duration-300">
-                    <div class="h-40 bg-gradient-to-br from-red-300 to-red-500 flex items-center justify-center">
-                        <i class="fas fa-kiwi-bird text-white text-5xl"></i>
+                <div class="group relative bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition duration-300">
+                    <div class="h-48 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1581690389147-d1c51c7b5d5e?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" 
+                             alt="Hen Products" 
+                             class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
                     </div>
                     <div class="p-6">
-                        <h3 class="font-bold text-lg mb-2">Hen</h3>
-                        <p class="text-gray-600 text-sm">Eggs, Meat, Chicks, Manure</p>
+                        <div class="flex items-center mb-3">
+                            <div class="bg-red-100 p-2 rounded-lg">
+                                <i class="fas fa-kiwi-bird text-red-500 text-xl"></i>
+                            </div>
+                            <h3 class="font-bold text-lg ml-3">Hen</h3>
+                        </div>
+                        <p class="text-gray-600 text-sm mb-4">Eggs, Meat, Chicks, Manure, Feathers</p>
+                        <a href="#" class="text-red-500 font-semibold text-sm hover:text-red-600">
+                            Explore Products <i class="ml-1 fas fa-arrow-right"></i>
+                        </a>
                     </div>
                 </div>
 
-                <!-- Duck -->
-                <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition duration-300">
-                    <div class="h-40 bg-gradient-to-br from-blue-300 to-blue-500 flex items-center justify-center">
-                        <i class="fas fa-feather-alt text-white text-5xl"></i>
+                <!-- More categories card -->
+                <div class="lg:col-span-4 mt-8">
+                    <div class="bg-gradient-to-r from-green-500 to-emerald-600 rounded-2xl p-8 shadow-lg">
+                        <div class="flex flex-col md:flex-row items-center justify-between">
+                            <div class="mb-6 md:mb-0 md:mr-8">
+                                <h3 class="text-2xl font-bold text-white mb-2">Discover All Categories</h3>
+                                <p class="text-white/90 mb-4">We offer comprehensive range including Duck, Pig, Rabbit, Fish and many more agricultural products</p>
+                                <a href="categories.html" class="inline-flex items-center bg-white text-green-600 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition duration-300">
+                                    View All Categories <i class="ml-2 fas fa-arrow-right"></i>
+                                </a>
+                            </div>
+                            <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                                <div class="bg-white/20 backdrop-blur-sm rounded-xl p-4 text-center">
+                                    <i class="fas fa-duck text-white text-2xl mb-2"></i>
+                                    <div class="text-white font-semibold">Duck</div>
+                                </div>
+                                <div class="bg-white/20 backdrop-blur-sm rounded-xl p-4 text-center">
+                                    <i class="fas fa-piggy-bank text-white text-2xl mb-2"></i>
+                                    <div class="text-white font-semibold">Pig</div>
+                                </div>
+                                <div class="bg-white/20 backdrop-blur-sm rounded-xl p-4 text-center">
+                                    <i class="fas fa-paw text-white text-2xl mb-2"></i>
+                                    <div class="text-white font-semibold">Rabbit</div>
+                                </div>
+                                <div class="bg-white/20 backdrop-blur-sm rounded-xl p-4 text-center">
+                                    <i class="fas fa-fish text-white text-2xl mb-2"></i>
+                                    <div class="text-white font-semibold">Fish</div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="p-6">
-                        <h3 class="font-bold text-lg mb-2">Duck</h3>
-                        <p class="text-gray-600 text-sm">Eggs, Meat</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="py-20 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold mb-4 text-gray-800">How It Works</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto text-lg">Simple steps to start your agricultural journey with AgroForms</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <!-- Step 1 -->
+                <div class="text-center relative">
+                    <div class="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-green-500 text-white w-12 h-12 rounded-full flex items-center justify-center text-xl font-bold shadow-lg">
+                        1
+                    </div>
+                    <div class="bg-white rounded-2xl p-8 pt-12 shadow-lg mt-6">
+                        <div class="bg-green-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6">
+                            <i class="fas fa-user-plus text-green-600 text-3xl"></i>
+                        </div>
+                        <h3 class="font-bold text-xl mb-4">Register</h3>
+                        <p class="text-gray-600">Create your account as a farmer or retailer</p>
                     </div>
                 </div>
 
-                <!-- Pig -->
-                <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition duration-300">
-                    <div class="h-40 bg-gradient-to-br from-pink-300 to-pink-600 flex items-center justify-center">
-                        <i class="fas fa-piggy-bank text-white text-5xl"></i>
+                <!-- Step 2 -->
+                <div class="text-center relative">
+                    <div class="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-green-500 text-white w-12 h-12 rounded-full flex items-center justify-center text-xl font-bold shadow-lg">
+                        2
                     </div>
-                    <div class="p-6">
-                        <h3 class="font-bold text-lg mb-2">Pig</h3>
-                        <p class="text-gray-600 text-sm">Meat, Piglets</p>
-                    </div>
-                </div>
-
-                <!-- Rabbit -->
-                <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition duration-300">
-                    <div class="h-40 bg-gradient-to-br from-gray-300 to-gray-600 flex items-center justify-center">
-                        <i class="fas fa-paw text-white text-5xl"></i>
-                    </div>
-                    <div class="p-6">
-                        <h3 class="font-bold text-lg mb-2">Rabbit</h3>
-                        <p class="text-gray-600 text-sm">Meat, Breeding Rabbits</p>
+                    <div class="bg-white rounded-2xl p-8 pt-12 shadow-lg mt-6">
+                        <div class="bg-green-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6">
+                            <i class="fas fa-clipboard-list text-green-600 text-3xl"></i>
+                        </div>
+                        <h3 class="font-bold text-xl mb-4">List/Explore</h3>
+                        <p class="text-gray-600">Farmers list products, retailers explore inventory</p>
                     </div>
                 </div>
 
-                <!-- More -->
-                <div class="bg-gradient-to-br from-purple-400 to-purple-600 rounded-xl shadow-md overflow-hidden hover:shadow-lg transition duration-300 flex items-center justify-center">
-                    <div class="text-center p-6">
-                        <h3 class="font-bold text-lg mb-2 text-white">+ More</h3>
-                        <p class="text-white/90 text-sm">Additional categories available</p>
+                <!-- Step 3 -->
+                <div class="text-center relative">
+                    <div class="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-green-500 text-white w-12 h-12 rounded-full flex items-center justify-center text-xl font-bold shadow-lg">
+                        3
+                    </div>
+                    <div class="bg-white rounded-2xl p-8 pt-12 shadow-lg mt-6">
+                        <div class="bg-green-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6">
+                            <i class="fas fa-handshake text-green-600 text-3xl"></i>
+                        </div>
+                        <h3 class="font-bold text-xl mb-4">Connect & Negotiate</h3>
+                        <p class="text-gray-600">Direct communication and fair price negotiation</p>
+                    </div>
+                </div>
+
+                <!-- Step 4 -->
+                <div class="text-center relative">
+                    <div class="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-green-500 text-white w-12 h-12 rounded-full flex items-center justify-center text-xl font-bold shadow-lg">
+                        4
+                    </div>
+                    <div class="bg-white rounded-2xl p-8 pt-12 shadow-lg mt-6">
+                        <div class="bg-green-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6">
+                            <i class="fas fa-truck text-green-600 text-3xl"></i>
+                        </div>
+                        <h3 class="font-bold text-xl mb-4">Delivery & Payment</h3>
+                        <p class="text-gray-600">Secure logistics and hassle-free transactions</p>
                     </div>
                 </div>
             </div>
@@ -204,19 +478,46 @@
     </section>
 
     <!-- CTA Section -->
-    <section class="py-20 bg-gradient-to-r from-green-700 to-emerald-800 text-white">
-        <div class="container mx-auto px-4 text-center">
+    <section class="py-20 bg-gradient-to-r from-green-700 to-emerald-800 text-white relative overflow-hidden">
+        <!-- Background pattern -->
+        <div class="absolute inset-0 opacity-10">
+            <div class="absolute inset-0" style="background-image: url('https://images.unsplash.com/photo-1559131397-f94da358a2c7?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80'); background-size: cover;"></div>
+        </div>
+        
+        <div class="container mx-auto px-4 text-center relative z-10">
             <h2 class="text-3xl font-bold mb-6">Ready to Transform Your Agricultural Business?</h2>
             <p class="text-xl mb-8 max-w-2xl mx-auto opacity-90">Join thousands of farmers and retailers who are already benefiting from our platform</p>
-            <div class="flex flex-col sm:flex-row justify-center gap-6">
-                <a href="auth.html?action=register&role=farmer" class="bg-white text-green-700 px-8 py-4 rounded-lg font-bold text-lg hover:bg-gray-100 transition duration-300 flex items-center justify-center gap-2">
-                    <i class="fas fa-tractor"></i> Register as Farmer
+            
+            <div class="flex flex-col sm:flex-row justify-center gap-6 mb-12">
+                <a href="auth.html?action=register&role=farmer" class="bg-white text-green-700 px-8 py-4 rounded-lg font-bold text-lg hover:bg-gray-100 transition duration-300 flex items-center justify-center gap-3 shadow-lg hover:shadow-xl transform hover:-translate-y-1">
+                    <i class="fas fa-tractor text-xl"></i> Register as Farmer
                 </a>
-                <a href="auth.html?action=register&role=buyer" class="bg-transparent border-2 border-white text-white px-8 py-4 rounded-lg font-bold text-lg hover:bg-white hover:text-green-700 transition duration-300 flex items-center justify-center gap-2">
-                    <i class="fas fa-store"></i> Register as Buyer
+                <a href="auth.html?action=register&role=buyer" class="bg-transparent border-2 border-white text-white px-8 py-4 rounded-lg font-bold text-lg hover:bg-white hover:text-green-700 transition duration-300 flex items-center justify-center gap-3 shadow-lg hover:shadow-xl transform hover:-translate-y-1">
+                    <i class="fas fa-store text-xl"></i> Register as Buyer
                 </a>
             </div>
-            <p class="mt-8 opacity-80">Already have an account? <a href="auth.html" class="font-semibold underline hover:no-underline">Login here</a></p>
+            
+            <!-- Trust Badges -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-3xl mx-auto">
+                <div class="bg-white/10 backdrop-blur-sm rounded-xl p-4 border border-white/20">
+                    <i class="fas fa-shield-alt text-2xl mb-2"></i>
+                    <div class="font-semibold">Secure Platform</div>
+                </div>
+                <div class="bg-white/10 backdrop-blur-sm rounded-xl p-4 border border-white/20">
+                    <i class="fas fa-clock text-2xl mb-2"></i>
+                    <div class="font-semibold">24/7 Support</div>
+                </div>
+                <div class="bg-white/10 backdrop-blur-sm rounded-xl p-4 border border-white/20">
+                    <i class="fas fa-lock text-2xl mb-2"></i>
+                    <div class="font-semibold">Safe Payments</div>
+                </div>
+                <div class="bg-white/10 backdrop-blur-sm rounded-xl p-4 border border-white/20">
+                    <i class="fas fa-truck text-2xl mb-2"></i>
+                    <div class="font-semibold">Quick Delivery</div>
+                </div>
+            </div>
+            
+            <p class="mt-12 opacity-80">Already have an account? <a href="auth.html" class="font-semibold underline hover:no-underline">Login here</a></p>
         </div>
     </section>
 
@@ -240,6 +541,17 @@
                     }
                 });
             }, 100);
+            
+            // Add hover effects to all cards
+            const cards = document.querySelectorAll('.transition');
+            cards.forEach(card => {
+                card.addEventListener('mouseenter', () => {
+                    card.style.transform = 'translateY(-5px)';
+                });
+                card.addEventListener('mouseleave', () => {
+                    card.style.transform = 'translateY(0)';
+                });
+            });
         });
     </script>
 </body>
