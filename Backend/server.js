@@ -21,33 +21,30 @@ const app = express();
 app.use(helmet());
 
 // Configure CORS options
+const allowedOrigins = [
+  'http://127.0.0.1:5500',
+  'http://localhost:5500',
+  'http://127.0.0.1:5501',
+  'http://localhost:5501'
+];
+
 const corsOptions = {
-  origin: 'http://127.0.0.1:5500', // Your frontend origin
-  credentials: true, // Allow credentials
-  optionsSuccessStatus: 200 // Some legacy browsers choke on 204
+  origin: function (origin, callback) {
+    // Allow requests with no origin (like mobile apps or curl requests)
+    if (!origin) return callback(null, true);
+
+    if (allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error('The CORS policy for this site does not allow access from the specified Origin.'));
+    }
+  },
+  credentials: true,
+  optionsSuccessStatus: 200
 };
 
 // Use the CORS middleware with options
 app.use(cors(corsOptions));
-
-// If you want to allow multiple origins during development:
-const allowedOrigins = ['http://127.0.0.1:5500', 'http://localhost:5500'];
-
-const corsOptionsDynamic = {
-  origin: function (origin, callback) {
-    // Allow requests with no origin (like mobile apps or curl requests)
-    if (!origin) return callback(null, true);
-    
-    if (allowedOrigins.indexOf(origin) === -1) {
-      const msg = 'The CORS policy for this site does not allow access from the specified Origin.';
-      return callback(new Error(msg), false);
-    }
-    return callback(null, true);
-  },
-  credentials: true
-};
-
-app.use(cors(corsOptionsDynamic));
 
 // Rate limiting
 const limiter = rateLimit({

@@ -53,7 +53,6 @@
     <script src="js/config.js"></script>
     <script src="js/utils.js"></script>
     <script src="js/components.js"></script>
-    <script src="js/api.js"></script>
     
     <!-- Auth-specific script -->
     <script>
@@ -68,6 +67,32 @@
                 else window.location.href = 'dashboard.html';
             }, 100);
         }
+        
+        // Dummy user data for testing
+        const dummyUsers = {
+            'farmer@agroforms.com': {
+                name: 'John Farmer',
+                email: 'farmer@agroforms.com',
+                role: 'farmer',
+                farmerType: 'crop',
+                phone: '9876543210'
+            },
+            'buyer@agroforms.com': {
+                name: 'Jane Buyer',
+                email: 'buyer@agroforms.com',
+                role: 'buyer',
+                phone: '9876543211'
+            },
+            'admin@agroforms.com': {
+                name: 'Admin User',
+                email: 'admin@agroforms.com',
+                role: 'admin',
+                phone: '9876543212'
+            }
+        };
+        
+        // Dummy password for all users
+        const dummyPassword = 'password123';
         
         // Load components
         document.addEventListener('DOMContentLoaded', async function() {
@@ -124,6 +149,16 @@
                             Forgot password?
                         </button>
                     </div>
+                    
+                    <div class="bg-gray-50 p-4 rounded-lg mb-4">
+                        <p class="text-sm text-gray-600 mb-2">Demo accounts:</p>
+                        <div class="space-y-1 text-sm">
+                            <div><span class="font-medium">Farmer:</span> farmer@agroforms.com / password123</div>
+                            <div><span class="font-medium">Buyer:</span> buyer@agroforms.com / password123</div>
+                            <div><span class="font-medium">Admin:</span> admin@agroforms.com / password123</div>
+                        </div>
+                    </div>
+                    
                     <button type="submit" class="w-full bg-green-600 text-white py-3 rounded-lg font-semibold hover:bg-green-700 transition duration-300 flex items-center justify-center gap-2">
                         <i class="fas fa-sign-in-alt"></i> Sign In
                     </button>
@@ -279,56 +314,65 @@
         }
         
         // Form handlers
-        async function handleLogin(e) {
+        function handleLogin(e) {
             e.preventDefault();
             
             const email = document.getElementById('login-email').value;
             const password = document.getElementById('login-password').value;
             
             if (!email || !password) {
-                alert('Please fill in all fields');
+                showAlert('Please fill in all fields', 'error');
                 return;
             }
             
-            try {
-                const response = await fetch('http://localhost:5000/api/auth/login', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ email, password })
-                });
+            // Check if it's a dummy user
+            if (dummyUsers[email] && password === dummyPassword) {
+                // Dummy user login successful
+                const user = {
+                    ...dummyUsers[email],
+                    token: 'dummy-token-' + Date.now()
+                };
                 
-                const data = await response.json();
+                localStorage.setItem('user', JSON.stringify(user));
+                showAlert('Login successful! Redirecting...', 'success');
                 
-                if (response.ok && data.success) {
-                    localStorage.setItem('user', JSON.stringify({
-                        ...data.user,
-                        token: data.token
-                    }));
-                    
-                    alert('Login successful!');
-                    
-                    // Redirect based on role
-                    if (data.user.role === 'farmer') {
+                // Redirect based on role
+                setTimeout(() => {
+                    if (user.role === 'farmer') {
                         window.location.href = 'dashboard.html?role=farmer';
-                    } else if (data.user.role === 'buyer') {
+                    } else if (user.role === 'buyer') {
                         window.location.href = 'dashboard.html?role=buyer';
-                    } else if (data.user.role === 'admin') {
+                    } else if (user.role === 'admin') {
                         window.location.href = 'admin-panel.html';
                     } else {
                         window.location.href = 'dashboard.html';
                     }
-                } else {
-                    alert(data.message || 'Login failed');
-                }
-            } catch (error) {
-                console.error('Login error:', error);
-                alert('Login failed. Please try again.');
+                }, 1000);
+                
+            } else if (email === 'test@test.com' && password === 'test123') {
+                // Generic test user
+                const user = {
+                    name: 'Test User',
+                    email: email,
+                    role: 'farmer',
+                    farmerType: 'crop',
+                    phone: '9876543210',
+                    token: 'dummy-token-' + Date.now()
+                };
+                
+                localStorage.setItem('user', JSON.stringify(user));
+                showAlert('Login successful! Redirecting...', 'success');
+                
+                setTimeout(() => {
+                    window.location.href = 'dashboard.html?role=farmer';
+                }, 1000);
+                
+            } else {
+                showAlert('Invalid email or password. Try: farmer@agroforms.com / password123', 'error');
             }
         }
         
-        async function handleRegister(e) {
+        function handleRegister(e) {
             e.preventDefault();
             
             const name = document.getElementById('register-name').value;
@@ -342,72 +386,111 @@
             
             // Simple validation
             if (!name || !email || !phone || !password || !confirmPassword) {
-                alert('Please fill in all fields');
+                showAlert('Please fill in all fields', 'error');
                 return;
             }
             
             if (password !== confirmPassword) {
-                alert('Passwords do not match');
+                showAlert('Passwords do not match', 'error');
                 return;
             }
             
             if (!terms) {
-                alert('Please agree to the terms and conditions');
+                showAlert('Please agree to the terms and conditions', 'error');
                 return;
             }
             
-            try {
-                const response = await fetch('http://localhost:5000/api/auth/register', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        name,
-                        email,
-                        phone,
-                        password,
-                        role,
-                        farmerType
-                    })
-                });
-                
-                const data = await response.json();
-                
-                if (response.ok && data.success) {
-                    localStorage.setItem('user', JSON.stringify({
-                        ...data.user,
-                        token: data.token
-                    }));
-                    
-                    alert('Registration successful!');
-                    
-                    // Redirect based on role
-                    if (data.user.role === 'farmer') {
-                        window.location.href = 'dashboard.html?role=farmer';
-                    } else if (data.user.role === 'buyer') {
-                        window.location.href = 'dashboard.html?role=buyer';
-                    } else if (data.user.role === 'admin') {
-                        window.location.href = 'admin-panel.html';
-                    } else {
-                        window.location.href = 'dashboard.html';
-                    }
-                } else {
-                    alert(data.message || 'Registration failed');
-                }
-            } catch (error) {
-                console.error('Registration error:', error);
-                alert('Registration failed. Please try again.');
+            // Check if email already exists in dummy users
+            if (dummyUsers[email]) {
+                showAlert('Email already registered. Please login instead.', 'error');
+                return;
             }
+            
+            // Create new user
+            const newUser = {
+                name,
+                email,
+                phone,
+                role,
+                farmerType: role === 'farmer' ? farmerType : null,
+                token: 'dummy-token-' + Date.now()
+            };
+            
+            // Store in localStorage
+            localStorage.setItem('user', JSON.stringify(newUser));
+            
+            // Show success message
+            showAlert('Registration successful! Redirecting...', 'success');
+            
+            // Redirect based on role
+            setTimeout(() => {
+                if (newUser.role === 'farmer') {
+                    window.location.href = 'dashboard.html?role=farmer';
+                } else if (newUser.role === 'buyer') {
+                    window.location.href = 'dashboard.html?role=buyer';
+                } else {
+                    window.location.href = 'dashboard.html';
+                }
+            }, 1500);
         }
         
         function handleForgotPassword(e) {
             e.preventDefault();
-            alert('Password reset link would be sent to your email (functionality to be implemented)');
-            switchToLogin();
+            const email = document.getElementById('forgot-email').value;
+            
+            if (!email) {
+                showAlert('Please enter your email address', 'error');
+                return;
+            }
+            
+            showAlert(`Password reset link sent to ${email}`, 'success');
+            setTimeout(() => {
+                switchToLogin();
+            }, 2000);
         }
         
         // Helper functions
+        function showAlert(message, type = 'info') {
+            // Remove existing alerts
+            const existingAlert = document.querySelector('.alert-message');
+            if (existingAlert) {
+                existingAlert.remove();
+            }
+            
+            // Create alert element
+            const alertDiv = document.createElement('div');
+            alertDiv.className = `alert-message fixed top-4 right-4 p-4 rounded-lg shadow-lg z-50 max-w-md ${
+                type === 'success' ? 'bg-green-50 text-green-800 border border-green-200' :
+                type === 'error' ? 'bg-red-50 text-red-800 border border-red-200' :
+                'bg-blue-50 text-blue-800 border border-blue-200'
+            }`;
+            
+            alertDiv.innerHTML = `
+                <div class="flex items-start">
+                    <i class="fas ${
+                        type === 'success' ? 'fa-check-circle' :
+                        type === 'error' ? 'fa-exclamation-circle' :
+                        'fa-info-circle'
+                    } mt-0.5 mr-3"></i>
+                    <div class="flex-1">
+                        <p class="text-sm font-medium">${message}</p>
+                    </div>
+                    <button onclick="this.parentElement.parentElement.remove()" class="ml-4 text-gray-400 hover:text-gray-600">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            `;
+            
+            document.body.appendChild(alertDiv);
+            
+            // Auto remove after 5 seconds
+            setTimeout(() => {
+                if (alertDiv.parentElement) {
+                    alertDiv.remove();
+                }
+            }, 5000);
+        }
+        
         function switchToLogin() {
             window.location.href = 'auth.html';
         }
@@ -429,13 +512,13 @@
                 farmerBtn.classList.remove('border-gray-300', 'text-gray-600');
                 buyerBtn.classList.add('border-gray-300', 'text-gray-600');
                 buyerBtn.classList.remove('border-green-500', 'text-green-600');
-                farmerTypeSection.classList.remove('hidden');
+                if (farmerTypeSection) farmerTypeSection.classList.remove('hidden');
             } else {
                 buyerBtn.classList.add('border-green-500', 'text-green-600');
                 buyerBtn.classList.remove('border-gray-300', 'text-gray-600');
                 farmerBtn.classList.add('border-gray-300', 'text-gray-600');
                 farmerBtn.classList.remove('border-green-500', 'text-green-600');
-                farmerTypeSection.classList.add('hidden');
+                if (farmerTypeSection) farmerTypeSection.classList.add('hidden');
             }
         }
         
