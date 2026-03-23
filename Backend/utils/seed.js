@@ -355,293 +355,253 @@ const seedData = async () => {
 
     // Create sample products
     const products = [
-      // Farmer 1 - Crop products
-      {
-        farmer: farmer1._id,
-        category: 'crop',
-        subcategory: 'vegetables',
-        name: 'Fresh Tomatoes',
-        description: 'Fresh tomatoes grown with natural fertilizers',
-        price: 40,
-        unit: 'kg',
-        quantity: 1000,
-        availableQuantity: 800,
-        minOrderQuantity: 1,
-        qualityGrade: 'premium',
-        cropDetails: {
-          variety: 'Hybrid',
-          season: 'All',
-          organic: true,
-          pesticideFree: true,
-          harvestMethod: 'Hand-picked'
-        },
-        origin: {
-          farmName: 'Rajesh Organic Farm',
-          location: {
-            city: 'Pune',
-            state: 'Maharashtra',
-            country: 'India'
-          },
-          harvestDate: new Date()
-        },
-        isActive: true,
-        isNegotiable: true,
-        tags: ['fresh', 'vegetables', 'tomatoes']
-      },
-      {
-        farmer: farmer1._id,
-        category: 'crop',
-        subcategory: 'vegetables',
-        name: 'Premium Potatoes',
-        description: 'High quality potatoes, perfect for cooking',
-        price: 25,
-        unit: 'kg',
-        quantity: 500,
-        availableQuantity: 500,
-        minOrderQuantity: 5,
-        qualityGrade: 'grade-a',
-        cropDetails: {
-          variety: 'Local',
-          season: 'Winter',
-          organic: false,
-          pesticideFree: true,
-          harvestMethod: 'Machine harvested'
-        },
-        origin: {
-          farmName: 'Rajesh Organic Farm',
-          location: {
-            city: 'Pune',
-            state: 'Maharashtra',
-            country: 'India'
-          },
-          harvestDate: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000)
-        },
-        isActive: true,
-        isNegotiable: true,
-        tags: ['fresh', 'potatoes', 'winter']
-      },
-      {
-        farmer: farmer1._id,
-        category: 'crop',
-        subcategory: 'grains',
-        name: 'Organic Wheat',
-        description: 'High quality organic wheat grains',
-        price: 30,
-        unit: 'kg',
-        quantity: 2000,
-        availableQuantity: 1500,
-        minOrderQuantity: 10,
-        qualityGrade: 'premium',
-        cropDetails: {
-          variety: 'Durum',
-          season: 'Winter',
-          organic: true,
-          pesticideFree: true,
-          harvestMethod: 'Combined'
-        },
-        origin: {
-          farmName: 'Rajesh Organic Farm',
-          location: {
-            city: 'Pune',
-            state: 'Maharashtra',
-            country: 'India'
-          },
-          harvestDate: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000)
-        },
-        isActive: true,
-        isNegotiable: true,
-        tags: ['organic', 'wheat', 'grains']
-      },
+  // Farmer 1 - Crop products
+  {
+    farmer: farmer1._id,
+    category: 'crop',
+    subcategory: 'vegetables',
+    name: 'Fresh Tomatoes',
+    description: 'Fresh tomatoes grown with natural fertilizers',
+    price: 40,
+    unit: 'kg',
+    quantity: 1000,
+    availableQuantity: 800,
+    minOrderQuantity: 1,
+    qualityGrade: 'premium',
+    images: [
+      { url: 'https://images.unsplash.com/photo-1546470427-e5ac89c8c1b6', isPrimary: true }
+    ],
+    cropDetails: {
+      variety: 'Hybrid',
+      season: 'All',
+      organic: true,
+      pesticideFree: true,
+      harvestMethod: 'Hand-picked'
+    },
+    origin: {
+      farmName: 'Rajesh Organic Farm',
+      location: { city: 'Pune', state: 'Maharashtra', country: 'India' },
+      harvestDate: new Date()
+    },
+    isActive: true,
+    isNegotiable: true,
+    tags: ['fresh', 'vegetables', 'tomatoes']
+  },
 
-      // Farmer 2 - Dairy products
-      {
-        farmer: farmer2._id,
-        category: 'cow',
-        subcategory: 'milk',
-        name: 'Fresh Cow Milk',
-        description: 'Pure, fresh cow milk from grass-fed cows',
-        price: 60,
-        unit: 'liter',
-        quantity: 200,
-        availableQuantity: 150,
-        minOrderQuantity: 1,
-        qualityGrade: 'premium',
-        animalDetails: {
-          breed: 'Jersey',
-          age: 4,
-          ageUnit: 'years',
-          feedType: 'Grass and grains',
-          healthStatus: 'Excellent'
-        },
-        origin: {
-          farmName: 'Mohan Dairy Farm',
-          location: {
-            city: 'Nagpur',
-            state: 'Maharashtra',
-            country: 'India'
-          },
-          processingMethod: 'Freshly milked, pasteurized'
-        },
-        isActive: true,
-        isNegotiable: false,
-        tags: ['milk', 'dairy', 'fresh']
-      },
-      {
-        farmer: farmer2._id,
-        category: 'goat',
-        subcategory: 'milk',
-        name: 'Goat Milk',
-        description: 'Nutritious goat milk, rich in vitamins',
-        price: 80,
-        unit: 'liter',
-        quantity: 100,
-        availableQuantity: 80,
-        minOrderQuantity: 1,
-        qualityGrade: 'premium',
-        animalDetails: {
-          breed: 'Saanen',
-          age: 3,
-          ageUnit: 'years',
-          feedType: 'Organic feed',
-          healthStatus: 'Very good'
-        },
-        origin: {
-          farmName: 'Mohan Dairy Farm',
-          location: {
-            city: 'Nagpur',
-            state: 'Maharashtra',
-            country: 'India'
-          },
-          processingMethod: 'Freshly milked'
-        },
-        isActive: true,
-        isNegotiable: true,
-        tags: ['goat milk', 'nutritious', 'dairy']
-      },
-      {
-        farmer: farmer2._id,
-        category: 'cow',
-        subcategory: 'ghee',
-        name: 'Pure Cow Ghee',
-        description: 'Traditional method prepared pure cow ghee',
-        price: 600,
-        unit: 'kg',
-        quantity: 50,
-        availableQuantity: 40,
-        minOrderQuantity: 0.5,
-        qualityGrade: 'premium',
-        origin: {
-          farmName: 'Mohan Dairy Farm',
-          location: {
-            city: 'Nagpur',
-            state: 'Maharashtra',
-            country: 'India'
-          },
-          processingMethod: 'Traditional bilona method'
-        },
-        isActive: true,
-        isNegotiable: false,
-        tags: ['ghee', 'pure', 'traditional']
-      },
+  {
+    farmer: farmer1._id,
+    category: 'crop',
+    subcategory: 'vegetables',
+    name: 'Premium Potatoes',
+    description: 'High quality potatoes, perfect for cooking',
+    price: 25,
+    unit: 'kg',
+    quantity: 500,
+    availableQuantity: 500,
+    minOrderQuantity: 5,
+    qualityGrade: 'grade-a',
+    images: [
+      { url: 'https://images.unsplash.com/photo-1518977676601-b53f82aba655', isPrimary: true }
+    ],
+    cropDetails: {
+      variety: 'Local',
+      season: 'Winter',
+      organic: false,
+      pesticideFree: true,
+      harvestMethod: 'Machine harvested'
+    },
+    origin: {
+      farmName: 'Rajesh Organic Farm',
+      location: { city: 'Pune', state: 'Maharashtra', country: 'India' },
+      harvestDate: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000)
+    },
+    isActive: true,
+    isNegotiable: true,
+    tags: ['fresh', 'potatoes', 'winter']
+  },
 
-      // Farmer 3 - Poultry products
-      {
-        farmer: farmer3._id,
-        category: 'hen',
-        subcategory: 'eggs',
-        name: 'Farm Fresh Eggs',
-        description: 'Fresh eggs from free-range hens',
-        price: 80,
-        unit: 'dozen',
-        quantity: 100,
-        availableQuantity: 80,
-        minOrderQuantity: 1,
-        qualityGrade: 'premium',
-        animalDetails: {
-          breed: 'White Leghorn',
-          age: 1,
-          ageUnit: 'years',
-          feedType: 'Organic grains',
-          healthStatus: 'Excellent'
-        },
-        origin: {
-          farmName: 'Patel Poultry Farm',
-          location: {
-            city: 'Nashik',
-            state: 'Maharashtra',
-            country: 'India'
-          },
-          processingMethod: 'Collected daily, cleaned'
-        },
-        isActive: true,
-        isNegotiable: true,
-        tags: ['eggs', 'fresh', 'poultry']
-      },
-      {
-        farmer: farmer3._id,
-        category: 'duck',
-        subcategory: 'eggs',
-        name: 'Duck Eggs',
-        description: 'Nutritious duck eggs, larger than chicken eggs',
-        price: 100,
-        unit: 'dozen',
-        quantity: 50,
-        availableQuantity: 40,
-        minOrderQuantity: 1,
-        qualityGrade: 'grade-a',
-        animalDetails: {
-          breed: 'Khaki Campbell',
-          age: 1.5,
-          ageUnit: 'years',
-          feedType: 'Mixed grains',
-          healthStatus: 'Good'
-        },
-        origin: {
-          farmName: 'Patel Poultry Farm',
-          location: {
-            city: 'Nashik',
-            state: 'Maharashtra',
-            country: 'India'
-          },
-          processingMethod: 'Collected daily'
-        },
-        isActive: true,
-        isNegotiable: true,
-        tags: ['duck eggs', 'nutritious', 'large']
-      },
-      {
-        farmer: farmer3._id,
-        category: 'rabbit',
-        subcategory: 'meat',
-        name: 'Rabbit Meat',
-        description: 'Lean, healthy rabbit meat',
-        price: 400,
-        unit: 'kg',
-        quantity: 30,
-        availableQuantity: 25,
-        minOrderQuantity: 0.5,
-        qualityGrade: 'premium',
-        animalDetails: {
-          breed: 'New Zealand White',
-          age: 6,
-          ageUnit: 'months',
-          feedType: 'Organic pellets and greens',
-          healthStatus: 'Excellent'
-        },
-        origin: {
-          farmName: 'Patel Poultry Farm',
-          location: {
-            city: 'Nashik',
-            state: 'Maharashtra',
-            country: 'India'
-          },
-          processingMethod: 'Freshly processed, hygienic'
-        },
-        isActive: true,
-        isNegotiable: true,
-        tags: ['rabbit meat', 'lean', 'healthy']
-      }
-    ];
+  {
+    farmer: farmer1._id,
+    category: 'crop',
+    subcategory: 'grains',
+    name: 'Organic Wheat',
+    description: 'High quality organic wheat grains',
+    price: 30,
+    unit: 'kg',
+    quantity: 2000,
+    availableQuantity: 1500,
+    minOrderQuantity: 10,
+    qualityGrade: 'premium',
+    images: [
+      { url: 'https://images.unsplash.com/photo-1500382017468-9049fed747ef', isPrimary: true }
+    ],
+    cropDetails: {
+      variety: 'Durum',
+      season: 'Winter',
+      organic: true,
+      pesticideFree: true,
+      harvestMethod: 'Combined'
+    },
+    origin: {
+      farmName: 'Rajesh Organic Farm',
+      location: { city: 'Pune', state: 'Maharashtra', country: 'India' },
+      harvestDate: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000)
+    },
+    isActive: true,
+    isNegotiable: true,
+    tags: ['organic', 'wheat', 'grains']
+  },
+
+  // Farmer 2 - Dairy
+  {
+    farmer: farmer2._id,
+    category: 'cow',
+    subcategory: 'milk',
+    name: 'Fresh Cow Milk',
+    description: 'Pure, fresh cow milk from grass-fed cows',
+    price: 60,
+    unit: 'liter',
+    quantity: 200,
+    availableQuantity: 150,
+    minOrderQuantity: 1,
+    qualityGrade: 'premium',
+    images: [
+      { url: 'https://images.unsplash.com/photo-1563636619-e9143da7973b', isPrimary: true }
+    ],
+    animalDetails: {
+      breed: 'Jersey',
+      age: 4,
+      ageUnit: 'years',
+      feedType: 'Grass and grains',
+      healthStatus: 'Excellent'
+    },
+    origin: {
+      farmName: 'Mohan Dairy Farm',
+      location: { city: 'Nagpur', state: 'Maharashtra', country: 'India' },
+      processingMethod: 'Freshly milked, pasteurized'
+    },
+    isActive: true,
+    isNegotiable: false,
+    tags: ['milk', 'dairy', 'fresh']
+  },
+
+  {
+    farmer: farmer2._id,
+    category: 'goat',
+    subcategory: 'milk',
+    name: 'Goat Milk',
+    description: 'Nutritious goat milk, rich in vitamins',
+    price: 80,
+    unit: 'liter',
+    quantity: 100,
+    availableQuantity: 80,
+    minOrderQuantity: 1,
+    qualityGrade: 'premium',
+    images: [
+      { url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRA4Qkah_ha1VjIIqZf5GCkqt5KmDcbKMUB3w&s', isPrimary: true }
+    ],
+    animalDetails: {
+      breed: 'Saanen',
+      age: 3,
+      ageUnit: 'years',
+      feedType: 'Organic feed',
+      healthStatus: 'Very good'
+    },
+    origin: {
+      farmName: 'Mohan Dairy Farm',
+      location: { city: 'Nagpur', state: 'Maharashtra', country: 'India' },
+      processingMethod: 'Freshly milked'
+    },
+    isActive: true,
+    isNegotiable: true,
+    tags: ['goat milk', 'nutritious']
+  },
+
+  {
+    farmer: farmer2._id,
+    category: 'cow',
+    subcategory: 'ghee',
+    name: 'Pure Cow Ghee',
+    description: 'Traditional method prepared pure cow ghee',
+    price: 600,
+    unit: 'kg',
+    quantity: 50,
+    availableQuantity: 40,
+    minOrderQuantity: 0.5,
+    qualityGrade: 'premium',
+    images: [
+      { url: 'https://5.imimg.com/data5/SELLER/Default/2024/7/436164776/XM/TH/ZM/57852237/organic-cow-ghee-500x500.jpeg', isPrimary: true }
+    ],
+    origin: {
+      farmName: 'Mohan Dairy Farm',
+      location: { city: 'Nagpur', state: 'Maharashtra', country: 'India' },
+      processingMethod: 'Traditional bilona method'
+    },
+    isActive: true,
+    isNegotiable: false,
+    tags: ['ghee', 'pure']
+  },
+
+  // Farmer 3 - Poultry
+  {
+    farmer: farmer3._id,
+    category: 'hen',
+    subcategory: 'eggs',
+    name: 'Farm Fresh Eggs',
+    description: 'Fresh eggs from free-range hens',
+    price: 80,
+    unit: 'dozen',
+    quantity: 100,
+    availableQuantity: 80,
+    minOrderQuantity: 1,
+    qualityGrade: 'premium',
+    images: [
+      { url: 'https://images.unsplash.com/photo-1582722872445-44dc5f7e3c8f', isPrimary: true }
+    ],
+    origin: {
+      farmName: 'Patel Poultry Farm',
+      location: { city: 'Nashik', state: 'Maharashtra', country: 'India' }
+    },
+    isActive: true,
+    isNegotiable: true
+  },
+
+  {
+    farmer: farmer3._id,
+    category: 'duck',
+    subcategory: 'eggs',
+    name: 'Duck Eggs',
+    description: 'Nutritious duck eggs',
+    price: 100,
+    unit: 'dozen',
+    quantity: 50,
+    availableQuantity: 40,
+    minOrderQuantity: 1,
+    qualityGrade: 'grade-a',
+    images: [
+      { url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRS5OuaQWXB3nOiCTn8Z8wS6FWkeHqQ3DQADQ&s', isPrimary: true }
+    ],
+    isActive: true
+  },
+
+  {
+    farmer: farmer3._id,
+    category: 'rabbit',
+    subcategory: 'meat',
+    name: 'Rabbit Meat',
+    description: 'Lean, healthy rabbit meat',
+    price: 400,
+    unit: 'kg',
+    quantity: 30,
+    availableQuantity: 25,
+    minOrderQuantity: 0.5,
+    qualityGrade: 'premium',
+    images: [
+      { url: 'https://131792658.cdn6.editmysite.com/uploads/1/3/1/7/131792658/7JWWLLALC364ZVHL3ICVHN56.jpeg', isPrimary: true }
+    ],
+    isActive: true
+  }
+];
 
     await Product.insertMany(products);
     console.log('Created sample products');
